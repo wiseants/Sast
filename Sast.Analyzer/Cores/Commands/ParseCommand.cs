@@ -2,7 +2,7 @@
 using CommandLine;
 using Sast.Analyzer.Antrl.Visitors;
 using Sast.Analyzer.Interfaces;
-using Sast.Antlr.Grammars;
+using Sast.Antlr.Cores;
 using System.IO;
 using Unity.Resolution;
 
@@ -38,10 +38,11 @@ namespace Sast.Analyzer.Cores.Commands
             });
             parser.BuildParseTree = true;
 
-            if (parser is CPP14Parser cpp14Parser)
+            var rootNode = ParseTreeUtility.GetNode("translationunit", parser);
+            if (rootNode != null)
             {
                 DeclarationVisitor declareVisitor = new DeclarationVisitor();
-                declareVisitor.Visit(cpp14Parser.translationunit());
+                declareVisitor.Visit(rootNode);
             }
 
             return 1;

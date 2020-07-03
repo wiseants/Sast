@@ -1,8 +1,8 @@
 ﻿using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
+using Sast.Antlr.Cores;
 using Sast.Antlr.Models;
 using System.Collections.Generic;
-using static Sast.Antlr.Grammars.CPP14Parser;
 
 namespace Sast.Analyzer.Antrl.Visitors
 {
@@ -21,19 +21,19 @@ namespace Sast.Analyzer.Antrl.Visitors
 
         public override bool VisitChildren([NotNull] IRuleNode node)
         {
-            if (node is TypespecifierContext typespecifierContext)
+            if (ParseTreeUtility.IsMatchedContext("typespecifier", node) == true)
             {
                 TerminalVisitor typeVisitor = new TerminalVisitor();
-                currentType = typeVisitor.Visit(typespecifierContext);
+                currentType = typeVisitor.Visit(node);
             }
-            else if (node is DeclaratoridContext declaratoridContext)
+            else if (ParseTreeUtility.IsMatchedContext("declaratorid", node) == true)
             {
                 TerminalVisitor typeVisitor = new TerminalVisitor();
 
                 VariableInfoList.Add(new VariableInfo() 
                 { 
                     TypeName = currentType, 
-                    Name = typeVisitor.Visit(declaratoridContext)
+                    Name = typeVisitor.Visit(node)
                 });
             }
 

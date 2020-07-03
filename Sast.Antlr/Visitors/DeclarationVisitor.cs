@@ -1,8 +1,8 @@
 ﻿using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
+using Sast.Antlr.Cores;
 using Sast.Antlr.Models;
 using System.Collections.Generic;
-using static Sast.Antlr.Grammars.CPP14Parser;
 
 namespace Sast.Analyzer.Antrl.Visitors
 {
@@ -20,10 +20,10 @@ namespace Sast.Analyzer.Antrl.Visitors
 
         public override bool VisitChildren([NotNull] IRuleNode node)
         {
-            if (node is DeclarationstatementContext declarationstatementContext)
+            if (ParseTreeUtility.IsMatchedContext("declarationstatement", node) == true)
             {
                 DeclarationStatementVisitor declarationStatementVisitor = new DeclarationStatementVisitor();
-                declarationStatementVisitor.Visit(declarationstatementContext);
+                declarationStatementVisitor.Visit(node);
 
                 VariableInfoList.AddRange(declarationStatementVisitor.VariableInfoList);
             }
