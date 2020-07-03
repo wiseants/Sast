@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sast.Utility", "Sast.Utilit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sast.Analyzer", "Sast.Analyzer\Sast.Analyzer.csproj", "{88D218B9-8848-4BDE-BE8F-B4C922EA34ED}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sast.Antlr", "Sast.Antlr\Sast.Antlr.csproj", "{27FDC42E-59A3-4D82-A42E-49C834A91155}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{88D218B9-8848-4BDE-BE8F-B4C922EA34ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88D218B9-8848-4BDE-BE8F-B4C922EA34ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88D218B9-8848-4BDE-BE8F-B4C922EA34ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27FDC42E-59A3-4D82-A42E-49C834A91155}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27FDC42E-59A3-4D82-A42E-49C834A91155}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27FDC42E-59A3-4D82-A42E-49C834A91155}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27FDC42E-59A3-4D82-A42E-49C834A91155}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

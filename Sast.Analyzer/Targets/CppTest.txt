@@ -1,0 +1,12 @@
+﻿#include "std_testcase.h"
+#include <wchar.h>
+
+void goodG2B()
+{
+    int a,b,c = 1;
+	char d;
+	int e, f = c;
+	long g[1] = { 3 };
+	
+    printIntLine(data);
+}
