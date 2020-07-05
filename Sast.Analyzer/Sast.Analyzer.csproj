@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Sast.Antlr\Sast.Antlr.csproj" />
     <ProjectReference Include="..\Sast.Utility\Sast.Utility.csproj" />
   </ItemGroup>
 

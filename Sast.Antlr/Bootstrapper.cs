@@ -1,6 +1,4 @@
-﻿using Antlr4.Runtime;
-using Sast.Antlr.Grammars;
-using System;
+﻿using System;
 using Unity;
 using Unity.Resolution;
 
@@ -81,15 +79,7 @@ namespace Sast.Antlr
 
         private void BuildContainer()
         {
-            //container.RegisterType<Lexer, ExprLexer>();
-            //container.RegisterType<Lexer, CPP14Lexer>();
-            container.RegisterType<Lexer, CSharpLexer>();
-            //container.RegisterType<Lexer, CPP14Lexer>();
 
-            //container.RegisterType<Parser, ExprParser>();
-            //container.RegisterType<Parser, CPP14Parser>();
-            container.RegisterType<Parser, CSharpParser>();
-            //container.RegisterType<Parser, CPP14Parser>();
         }
 
         #endregion
