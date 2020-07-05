@@ -8,6 +8,8 @@ namespace Sast.CodeExplorer.Models
 {
     public class VariableInfo
     {
+        #region Properties
+
         public string TypeName
         {
             get;
@@ -19,5 +21,7 @@ namespace Sast.CodeExplorer.Models
             get;
             set;
         }
+
+        #endregion
     }
 }

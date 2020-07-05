@@ -2,28 +2,44 @@
 using Antlr4.Runtime.Tree;
 using NLog;
 using Sast.CodeExplorer.Cores;
-using Sast.CodeExplorer.Visitors;
 using Sast.Utility.Templates;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Unity.Resolution;
 
 namespace Sast.CodeExplorer.Managers
 {
     public class ParserManager : Singleton<ParserManager>
     {
+        #region Properties
+
+        /// <summary>
+        /// 파일이름을 키워드로 하는 파스트리맵.
+        /// </summary>
         public Dictionary<string, IParseTree> ParseTreeMap
         {
             get;
         } = new Dictionary<string, IParseTree>();
+
+        #endregion
+
+        #region Constructors
 
         private ParserManager()
         {
 
         }
 
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// 파일을 전달하여 파일을 파싱합니다.
+        /// </summary>
+        /// <param name="fileFullPath">파싱할 파일 전체 경로.</param>
+        /// <returns>참:파싱 성공, 거짓:파싱 실패.</returns>
         public bool FileParse(string fileFullPath)
         {
             bool isSuccess = false;
@@ -42,6 +58,7 @@ namespace Sast.CodeExplorer.Managers
                 parser.BuildParseTree = true;
 
                 ParseTreeMap.Add(fileFullPath, ParseTreeUtility.GetNode("translationunit", parser));
+                isSuccess = true;
 
                 //DeclarationVisitor declareVisitor = new DeclarationVisitor();
                 //declareVisitor.Visit(ParseTreeMap.Values.FirstOrDefault());
@@ -53,5 +70,7 @@ namespace Sast.CodeExplorer.Managers
 
             return isSuccess;
         }
+
+        #endregion
     }
 }

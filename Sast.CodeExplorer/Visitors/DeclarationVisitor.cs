@@ -8,15 +8,25 @@ namespace Sast.CodeExplorer.Visitors
 {
     public class DeclarationVisitor : AbstractParseTreeVisitor<bool>
     {
+        #region Constructors
+
         public DeclarationVisitor()
         {
 
         }
 
+        #endregion
+
+        #region Properties
+
         public List<VariableInfo> VariableInfoList
         {
             get;
         } = new List<VariableInfo>();
+
+        #endregion
+
+        #region Public methods
 
         public override bool VisitChildren([NotNull] IRuleNode node)
         {
@@ -30,5 +40,7 @@ namespace Sast.CodeExplorer.Visitors
 
             return base.VisitChildren(node);
         }
+
+        #endregion
     }
 }

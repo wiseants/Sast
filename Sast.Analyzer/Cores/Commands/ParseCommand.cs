@@ -9,6 +9,8 @@ namespace Sast.Analyzer.Cores.Commands
     [Verb("parse", HelpText = "Parse to C# code.")]
     public class ParseCommand : IAction
     {
+        #region Properties
+
         public bool IsValid => true;
 
         /// <summary>
@@ -20,6 +22,10 @@ namespace Sast.Analyzer.Cores.Commands
             get;
             set;
         }
+
+        #endregion
+
+        #region Public emthods
 
         public int Action()
         {
@@ -34,5 +40,7 @@ namespace Sast.Analyzer.Cores.Commands
 
             return 1;
         }
+
+        #endregion
     }
 }

@@ -8,23 +8,37 @@ namespace Sast.CodeExplorer.Visitors
 {
     public class DeclarationStatementVisitor : AbstractParseTreeVisitor<bool>
     {
-        private string currentType;
+        #region Fields
+
+        private string _currentType;
+
+        #endregion
+
+        #region Constructors
 
         public DeclarationStatementVisitor()
         {
         }
+
+        #endregion
+
+        #region Properties
 
         public List<VariableInfo> VariableInfoList
         {
             get;
         } = new List<VariableInfo>();
 
+        #endregion
+
+        #region Public methods
+
         public override bool VisitChildren([NotNull] IRuleNode node)
         {
             if (ParseTreeUtility.IsMatchedContext("typespecifier", node) == true)
             {
                 TerminalVisitor typeVisitor = new TerminalVisitor();
-                currentType = typeVisitor.Visit(node);
+                _currentType = typeVisitor.Visit(node);
             }
             else if (ParseTreeUtility.IsMatchedContext("declaratorid", node) == true)
             {
@@ -32,12 +46,14 @@ namespace Sast.CodeExplorer.Visitors
 
                 VariableInfoList.Add(new VariableInfo() 
                 { 
-                    TypeName = currentType, 
+                    TypeName = _currentType, 
                     Name = typeVisitor.Visit(node)
                 });
             }
 
             return base.VisitChildren(node);
         }
+
+        #endregion
     }
 }
