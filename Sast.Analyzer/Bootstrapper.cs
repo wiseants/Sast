@@ -1,4 +1,5 @@
 ﻿using Antlr4.Runtime;
+using NLog;
 using Sast.Antlr.Grammars;
 using System;
 using Unity;
@@ -51,9 +52,9 @@ namespace Sast.Analyzer
             {
                 result = container.Resolve<T>(overrides);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                LogManager.GetCurrentClassLogger().Error(ex.Message);
             }
 
             return result;
@@ -67,9 +68,9 @@ namespace Sast.Analyzer
             {
                 result = container.Resolve<T>(name, overrides);
             }
-            catch(Exception)
+            catch(Exception ex)
             {
-
+                LogManager.GetCurrentClassLogger().Error(ex.Message);
             }
 
             return result;

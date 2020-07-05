@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using Unity;
 using Unity.Resolution;
 
@@ -49,9 +50,9 @@ namespace Sast.Utility
             {
                 result = container.Resolve<T>(overrides);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                LogManager.GetCurrentClassLogger().Error(ex.Message);
             }
 
             return result;
@@ -65,9 +66,9 @@ namespace Sast.Utility
             {
                 result = container.Resolve<T>(name, overrides);
             }
-            catch(Exception)
+            catch(Exception ex)
             {
-
+                LogManager.GetCurrentClassLogger().Error(ex.Message);
             }
 
             return result;

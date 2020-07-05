@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using NLog;
 using Sast.Analyzer.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace Sast.Analyzer
                     {
                         if (opts.IsValid == false)
                         {
-                            Console.WriteLine("Invalid command.");
+                            LogManager.GetCurrentClassLogger().Warn("Invalid command.");
                             return 0;
                         }
 
@@ -46,7 +47,7 @@ namespace Sast.Analyzer
                 if (isContinuous == true)
                 {
                     // 지속적으로 사용하는 경우 결과값 출력.
-                    Console.WriteLine(commandResult < 0 ? "Error" : "Ok");
+                    LogManager.GetCurrentClassLogger().Info(string.Format("Result:{0}", commandResult < 0 ? "Error" : "Ok"));
                 }
             } while (isContinuous == true);
         }

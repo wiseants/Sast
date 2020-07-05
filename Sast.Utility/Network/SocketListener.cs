@@ -1,5 +1,6 @@
 ﻿// https://github.com/Astn/JSON-RPC.NET/wiki/Getting-Started-(Sockets)  인용.
 
+using NLog;
 using System;
 using System.IO;
 using System.Net;
@@ -53,8 +54,9 @@ namespace Sast.Utility.Network
                     TcpClient tc = await AcceptTcpClientAsync().ConfigureAwait(false);
                     _ = Task.Factory.StartNew(o => AsyncTcpProcess(o, handleRequest), tc, token);
                 }
-                catch (Exception) when (token.IsCancellationRequested == true)
+                catch (Exception ex) when (token.IsCancellationRequested == true)
                 {
+                    LogManager.GetCurrentClassLogger().Error(ex.Message);
                 }
             }
         }

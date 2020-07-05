@@ -48,7 +48,7 @@ namespace Sast.CodeExplorer.Managers
             }
             catch (Exception ex)
             {
-                LogManager.GetCurrentClassLogger().Error("Exception occured. Message:{0}", ex.Message);
+                LogManager.GetCurrentClassLogger().Error(ex.Message);
             }
 
             return isSuccess;

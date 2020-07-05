@@ -2,6 +2,7 @@
 
 using AustinHarris.JsonRpc;
 using Newtonsoft.Json.Linq;
+using NLog;
 using System;
 using System.IO;
 using System.Net;
@@ -160,21 +161,25 @@ namespace Sast.Utility.Network
                 }
                 catch (ArgumentNullException ane)
                 {
+                    LogManager.GetCurrentClassLogger().Error(string.Format("ArgumentNullException : {0}", ane.ToString()));
+
                     Console.Write("ArgumentNullException : " + ane.ToString());
                 }
                 catch (SocketException se)
                 {
-                    Console.Write("SocketException : " + se.ToString());
+                    LogManager.GetCurrentClassLogger().Error(string.Format("SocketException : {0}", se.ToString()));
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    Console.Write("Unexpected exception : " + e.ToString());
+                    Console.Write("Unexpected exception : " + ex.ToString());
+                    LogManager.GetCurrentClassLogger().Error(string.Format("Unexpected exception : {0}", ex.ToString()));
                 }
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.Write(e.ToString());
+                Console.Write(ex.ToString());
+                LogManager.GetCurrentClassLogger().Error(ex.Message);
             }
             return res;
         }

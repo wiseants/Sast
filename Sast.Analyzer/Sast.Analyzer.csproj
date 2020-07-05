@@ -12,6 +12,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="nlog.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="nlog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Sast.CodeExplorer\Sast.CodeExplorer.csproj" />
     <ProjectReference Include="..\Sast.Utility\Sast.Utility.csproj" />
   </ItemGroup>
