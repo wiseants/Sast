@@ -1,7 +1,7 @@
 ﻿using CommandLine;
 using Sast.Analyzer.Interfaces;
-using Sast.Parser.Managers;
-using Sast.Parser.Visitors;
+using Sast.CodeExplorer.Managers;
+using Sast.CodeExplorer.Visitors;
 using System.Linq;
 
 namespace Sast.Analyzer.Cores.Commands

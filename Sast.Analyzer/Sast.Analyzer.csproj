@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Sast.Parser\Sast.Parser.csproj" />
+    <ProjectReference Include="..\Sast.CodeExplorer\Sast.CodeExplorer.csproj" />
     <ProjectReference Include="..\Sast.Utility\Sast.Utility.csproj" />
   </ItemGroup>
 

@@ -1,10 +1,10 @@
 ﻿using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
-using Sast.Parser.Cores;
-using Sast.Parser.Models;
+using Sast.CodeExplorer.Cores;
+using Sast.CodeExplorer.Models;
 using System.Collections.Generic;
 
-namespace Sast.Parser.Visitors
+namespace Sast.CodeExplorer.Visitors
 {
     public class DeclarationVisitor : AbstractParseTreeVisitor<bool>
     {

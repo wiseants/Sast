@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sast.Parser.Models
+namespace Sast.CodeExplorer.Models
 {
     public class VariableInfo
     {

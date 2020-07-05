@@ -2,7 +2,7 @@
 using Antlr4.Runtime.Tree;
 using System;
 
-namespace Sast.Parser.Cores
+namespace Sast.CodeExplorer.Cores
 {
     public class ParseTreeUtility
     {

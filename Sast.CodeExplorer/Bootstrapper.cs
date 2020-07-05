@@ -1,10 +1,10 @@
 ﻿using Antlr4.Runtime;
+using Sast.Antlr.Grammars;
 using System;
 using Unity;
 using Unity.Resolution;
-using Sast.Antlr.Grammars;
 
-namespace Sast.Parser
+namespace Sast.CodeExplorer
 {
     internal class Bootstrapper
     {
@@ -89,7 +89,7 @@ namespace Sast.Parser
             //container.RegisterType<Parser, ExprParser>();
             //container.RegisterType<Parser, CPP14Parser>();
             //container.RegisterType<Parser, CSharpParser>();
-            container.RegisterType<Antlr4.Runtime.Parser, CPP14Parser>();
+            container.RegisterType<Parser, CPP14Parser>();
         }
 
         #endregion
