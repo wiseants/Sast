@@ -30,7 +30,7 @@ namespace Sast.Analyzer
                     currentArgs = Console.ReadLine().Split(DELIMITER_CHARS);
                 }
 
-                int commandResult = Parser.Default.ParseArguments(currentArgs, types.ToArray())
+                int commandResult = CommandLine.Parser.Default.ParseArguments(currentArgs, types.ToArray())
                     .MapResult((IAction opts) =>
                     {
                         if (opts.IsValid == false)

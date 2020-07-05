@@ -2,11 +2,11 @@
 using Antlr4.Runtime.Tree;
 using System;
 
-namespace Sast.Antlr.Cores
+namespace Sast.Parser.Cores
 {
     public class ParseTreeUtility
     {
-        public static IParseTree GetNode(string ruleName, Parser parser)
+        public static IParseTree GetNode(string ruleName, Antlr4.Runtime.Parser parser)
         {
             return parser.GetType().GetMethod(ruleName).Invoke(parser, null) as IParseTree;
         }

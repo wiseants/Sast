@@ -4,7 +4,7 @@ using System;
 using System.Reflection;
 using System.Threading;
 
-namespace Sast.Utility.Network
+namespace Sast.Utility.Templates
 {
     /// <summary>
     /// A generic abstract implementation of the Singleton design pattern (http://en.wikipedia.org/wiki/Singleton_pattern).

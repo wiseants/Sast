@@ -15,8 +15,4 @@
     <PackageReference Include="Unity" Version="5.11.7" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Sast.Antlr\Sast.Antlr.csproj" />
-  </ItemGroup>
-
 </Project>

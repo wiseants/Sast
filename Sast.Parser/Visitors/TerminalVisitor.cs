@@ -1,7 +1,7 @@
 ﻿using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
 
-namespace Sast.Analyzer.Antrl.Visitors
+namespace Sast.Parser.Visitors
 {
     public class TerminalVisitor : AbstractParseTreeVisitor<string>
     {

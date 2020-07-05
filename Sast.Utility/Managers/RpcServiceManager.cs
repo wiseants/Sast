@@ -1,8 +1,9 @@
 ﻿using AustinHarris.JsonRpc;
+using Sast.Utility.Network;
 using System;
 using System.Linq;
 
-namespace Sast.Utility.Network
+namespace Sast.Utility.Managers
 {
     /// <summary>
     /// RPC 서비스 싱글톤 클래스.

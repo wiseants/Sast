@@ -1,12 +1,8 @@
-﻿using Antlr4.Runtime;
-using CommandLine;
-using Sast.Analyzer.Antrl.Visitors;
+﻿using CommandLine;
 using Sast.Analyzer.Interfaces;
-using Sast.Antlr.Cores;
-using Sast.Utility.Managers;
-using System.IO;
+using Sast.Parser.Managers;
+using Sast.Parser.Visitors;
 using System.Linq;
-using Unity.Resolution;
 
 namespace Sast.Analyzer.Cores.Commands
 {

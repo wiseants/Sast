@@ -1,6 +1,6 @@
 ﻿using CommandLine;
 using Sast.Analyzer.Interfaces;
-using Sast.Utility.Network;
+using Sast.Utility.Managers;
 using System;
 
 namespace Sast.Analyzer.Cores.Commands
