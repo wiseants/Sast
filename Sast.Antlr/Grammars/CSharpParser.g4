@@ -7,7 +7,7 @@ parser grammar CSharpParser;
 options { tokenVocab=CSharpLexer; }
 
 // entry point
-compilation_unit
+translationunit
 	: BYTE_ORDER_MARK? extern_alias_directives? using_directives?
 	  global_attribute_section* namespace_member_declarations? EOF
 	;
@@ -17,11 +17,11 @@ compilation_unit
 //B.2.1 Basic concepts
 
 namespace_or_type_name 
-	: (identifier type_argument_list? | qualified_alias_member) ('.' identifier type_argument_list?)*
+	: (declaratorid type_argument_list? | qualified_alias_member) ('.' declaratorid type_argument_list?)*
 	;
 
 //B.2.2 Types
-type_
+typespecifier
 	: base_type ('?' | rank_specifier | '*')*
 	;
 
@@ -37,7 +37,7 @@ tuple_type
     ;
 
 tuple_element
-    : type_ identifier?
+    : typespecifier declaratorid?
     ;
 
 simple_type 
@@ -77,7 +77,7 @@ class_type
 	;
 
 type_argument_list 
-	: '<' type_ ( ',' type_)* '>'
+	: '<' typespecifier ( ',' typespecifier)* '>'
 	;
 
 //B.2.4 Expressions
@@ -86,7 +86,7 @@ argument_list
 	;
 
 argument
-	: (identifier ':')? refout=(REF | OUT | IN)? (VAR | type_)? expression
+	: (declaratorid ':')? refout=(REF | OUT | IN)? (VAR | typespecifier)? expression
 	;
 
 expression
@@ -143,7 +143,7 @@ equality_expression
 	;
 
 relational_expression
-	: shift_expression (('<' | '>' | '<=' | '>=') shift_expression | IS isType | AS type_)*
+	: shift_expression (('<' | '>' | '<=' | '>=') shift_expression | IS isType | AS typespecifier)*
 	;
 
 shift_expression
@@ -184,7 +184,7 @@ unary_expression
 	| '~' unary_expression
 	| '++' unary_expression
 	| '--' unary_expression
-	| OPEN_PARENS type_ CLOSE_PARENS unary_expression
+	| OPEN_PARENS typespecifier CLOSE_PARENS unary_expression
 	| AWAIT unary_expression // C# 5
 	| '&' unary_expression
 	| '*' unary_expression
@@ -193,33 +193,33 @@ unary_expression
 
 primary_expression  // Null-conditional operators C# 6: https://msdn.microsoft.com/en-us/library/dn986595.aspx
 	: pe=primary_expression_start '!'? bracket_expression* '!'?
-	  (((member_access | method_invocation | '++' | '--' | '->' identifier) '!'?) bracket_expression* '!'?)*
+	  (((member_access | method_invocation | '++' | '--' | '->' declaratorid) '!'?) bracket_expression* '!'?)*
 	;
 
 primary_expression_start
 	: literal                                   #literalExpression
-	| identifier type_argument_list?            #simpleNameExpression
+	| declaratorid type_argument_list?            #simpleNameExpression
 	| OPEN_PARENS expression CLOSE_PARENS       #parenthesisExpressions
 	| predefined_type                           #memberAccessExpression
 	| qualified_alias_member                    #memberAccessExpression
 	| LITERAL_ACCESS                            #literalAccessExpression
 	| THIS                                      #thisReferenceExpression
-	| BASE ('.' identifier type_argument_list? | '[' expression_list ']') #baseAccessExpression
-	| NEW (type_ (object_creation_expression
+	| BASE ('.' declaratorid type_argument_list? | '[' expression_list ']') #baseAccessExpression
+	| NEW (typespecifier (object_creation_expression
 	             | object_or_collection_initializer
 	             | '[' expression_list ']' rank_specifier* array_initializer?
 	             | rank_specifier+ array_initializer)
 	      | anonymous_object_initializer
 	      | rank_specifier array_initializer)                       #objectCreationExpression
 	| OPEN_PARENS argument ( ',' argument )+ CLOSE_PARENS           #tupleExpression
-	| TYPEOF OPEN_PARENS (unbound_type_name | type_ | VOID) CLOSE_PARENS   #typeofExpression
+	| TYPEOF OPEN_PARENS (unbound_type_name | typespecifier | VOID) CLOSE_PARENS   #typeofExpression
 	| CHECKED OPEN_PARENS expression CLOSE_PARENS                   #checkedExpression
 	| UNCHECKED OPEN_PARENS expression CLOSE_PARENS                 #uncheckedExpression
-	| DEFAULT (OPEN_PARENS type_ CLOSE_PARENS)?                     #defaultValueExpression
+	| DEFAULT (OPEN_PARENS typespecifier CLOSE_PARENS)?                     #defaultValueExpression
 	| ASYNC? DELEGATE (OPEN_PARENS explicit_anonymous_function_parameter_list? CLOSE_PARENS)? block #anonymousMethodExpression
-	| SIZEOF OPEN_PARENS type_ CLOSE_PARENS                          #sizeofExpression
+	| SIZEOF OPEN_PARENS typespecifier CLOSE_PARENS                          #sizeofExpression
 	// C# 6: https://msdn.microsoft.com/en-us/library/dn986596.aspx
-	| NAMEOF OPEN_PARENS (identifier '.')* identifier CLOSE_PARENS  #nameofExpression
+	| NAMEOF OPEN_PARENS (declaratorid '.')* declaratorid CLOSE_PARENS  #nameofExpression
 	;
 
 throwable_expression
@@ -232,7 +232,7 @@ throw_expression
 	;
 
 member_access
-	: '?'? '.' identifier type_argument_list?
+	: '?'? '.' declaratorid type_argument_list?
 	;
 
 bracket_expression
@@ -240,7 +240,7 @@ bracket_expression
 	;
 
 indexer_argument
-	: (identifier ':')? expression
+	: (declaratorid ':')? expression
 	;
 
 predefined_type
@@ -266,7 +266,7 @@ member_initializer_list
 	;
 
 member_initializer
-	: (identifier | '[' expression ']') '=' initializer_value // C# 6
+	: (declaratorid | '[' expression ']') '=' initializer_value // C# 6
 	;
 
 initializer_value
@@ -293,12 +293,12 @@ member_declarator_list
 
 member_declarator
 	: primary_expression
-	| identifier '=' expression
+	| declaratorid '=' expression
 	;
 
 unbound_type_name
-	: identifier ( generic_dimension_specifier? | '::' identifier generic_dimension_specifier?)
-	  ('.' identifier generic_dimension_specifier?)*
+	: declaratorid ( generic_dimension_specifier? | '::' declaratorid generic_dimension_specifier?)
+	  ('.' declaratorid generic_dimension_specifier?)*
 	;
 
 generic_dimension_specifier
@@ -306,7 +306,7 @@ generic_dimension_specifier
 	;
 
 isType
-	: base_type (rank_specifier | '*')* '?'? isTypePatternArms? identifier?
+	: base_type (rank_specifier | '*')* '?'? isTypePatternArms? declaratorid?
 	;
 
 isTypePatternArms
@@ -314,7 +314,7 @@ isTypePatternArms
 	;
 
 isTypePatternArm
-	: identifier ':' expression
+	: declaratorid ':' expression
 	;
 
 lambda_expression
@@ -325,7 +325,7 @@ anonymous_function_signature
 	: OPEN_PARENS CLOSE_PARENS
 	| OPEN_PARENS explicit_anonymous_function_parameter_list CLOSE_PARENS
 	| OPEN_PARENS implicit_anonymous_function_parameter_list CLOSE_PARENS
-	| identifier
+	| declaratorid
 	;
 
 explicit_anonymous_function_parameter_list
@@ -333,11 +333,11 @@ explicit_anonymous_function_parameter_list
 	;
 
 explicit_anonymous_function_parameter
-	: refout=(REF | OUT | IN)? type_ identifier
+	: refout=(REF | OUT | IN)? typespecifier declaratorid
 	;
 
 implicit_anonymous_function_parameter_list
-	: identifier (',' identifier)*
+	: declaratorid (',' declaratorid)*
 	;
 
 anonymous_function_body
@@ -350,7 +350,7 @@ query_expression
 	;
 
 from_clause
-	: FROM type_? identifier IN expression
+	: FROM typespecifier? declaratorid IN expression
 	;
 
 query_body
@@ -366,7 +366,7 @@ query_body_clause
 	;
 
 let_clause
-	: LET identifier '=' expression
+	: LET declaratorid '=' expression
 	;
 
 where_clause
@@ -374,7 +374,7 @@ where_clause
 	;
 
 combined_join_clause
-	: JOIN type_? identifier IN expression ON expression EQUALS expression (INTO identifier)?
+	: JOIN typespecifier? declaratorid IN expression ON expression EQUALS expression (INTO declaratorid)?
 	;
 
 orderby_clause
@@ -391,7 +391,7 @@ select_or_group_clause
 	;
 
 query_continuation
-	: INTO identifier query_body
+	: INTO declaratorid query_body
 	;
 
 //B.2.5 Statements
@@ -412,7 +412,7 @@ local_function_declaration
     ;
 
 local_function_header
-    : local_function_modifiers? return_type identifier type_parameter_list?
+    : local_function_modifiers? return_type declaratorid type_parameter_list?
         OPEN_PARENS formal_parameter_list? CLOSE_PARENS type_parameter_constraints_clauses?
     ;
 
@@ -427,7 +427,7 @@ local_function_body
     ;
 
 labeled_Statement
-	: identifier ':' statement  
+	: declaratorid ':' statement  
 	;
 
 embedded_statement
@@ -447,12 +447,12 @@ simple_embedded_statement
 	| WHILE OPEN_PARENS expression CLOSE_PARENS embedded_statement                                        #whileStatement
 	| DO embedded_statement WHILE OPEN_PARENS expression CLOSE_PARENS ';'                                 #doStatement
 	| FOR OPEN_PARENS for_initializer? ';' expression? ';' for_iterator? CLOSE_PARENS embedded_statement  #forStatement
-	| AWAIT? FOREACH OPEN_PARENS local_variable_type identifier IN expression CLOSE_PARENS embedded_statement    #foreachStatement
+	| AWAIT? FOREACH OPEN_PARENS local_variable_type declaratorid IN expression CLOSE_PARENS embedded_statement    #foreachStatement
 
     // jump statements
 	| BREAK ';'                                                   #breakStatement
 	| CONTINUE ';'                                                #continueStatement
-	| GOTO (identifier | CASE expression | DEFAULT) ';'           #gotoStatement
+	| GOTO (declaratorid | CASE expression | DEFAULT) ';'           #gotoStatement
 	| RETURN expression? ';'                                      #returnStatement
 	| THROW expression? ';'                                       #throwStatement
 
@@ -479,11 +479,11 @@ local_variable_declaration
 
 local_variable_type 
 	: VAR
-	| type_
+	| typespecifier
 	;
 
 local_variable_declarator
-	: identifier ('=' REF? local_variable_initializer)?
+	: declaratorid ('=' REF? local_variable_initializer)?
 	;
 
 local_variable_initializer
@@ -493,7 +493,7 @@ local_variable_initializer
 	;
 
 local_constant_declaration
-	: CONST type_ constant_declarators
+	: CONST typespecifier constant_declarators
 	;
 
 if_body
@@ -533,7 +533,7 @@ catch_clauses
 	;
 
 specific_catch_clause
-	: CATCH OPEN_PARENS class_type identifier? CLOSE_PARENS exception_filter? block
+	: CATCH OPEN_PARENS class_type declaratorid? CLOSE_PARENS exception_filter? block
 	;
 
 general_catch_clause
@@ -559,7 +559,7 @@ namespace_declaration
 	;
 
 qualified_identifier
-	: identifier ( '.'  identifier )*
+	: declaratorid ( '.'  declaratorid )*
 	;
 
 namespace_body
@@ -571,7 +571,7 @@ extern_alias_directives
 	;
 
 extern_alias_directive
-	: EXTERN ALIAS identifier ';'
+	: EXTERN ALIAS declaratorid ';'
 	;
 
 using_directives
@@ -579,7 +579,7 @@ using_directives
 	;
 
 using_directive
-	: USING identifier '=' namespace_or_type_name ';'            #usingAliasDirective
+	: USING declaratorid '=' namespace_or_type_name ';'            #usingAliasDirective
 	| USING namespace_or_type_name ';'                           #usingNamespaceDirective
 	// C# 6: https://msdn.microsoft.com/en-us/library/ms228593.aspx
 	| USING STATIC namespace_or_type_name ';'                    #usingStaticDirective
@@ -600,7 +600,7 @@ type_declaration
   ;
 
 qualified_alias_member
-	: identifier '::' identifier type_argument_list?
+	: declaratorid '::' declaratorid type_argument_list?
 	;
 
 //B.2.7 Classes;
@@ -609,7 +609,7 @@ type_parameter_list
 	;
 
 type_parameter
-	: attributes? identifier
+	: attributes? declaratorid
 	;
 
 class_base
@@ -625,7 +625,7 @@ type_parameter_constraints_clauses
 	;
 
 type_parameter_constraints_clause
-	: WHERE identifier ':' type_parameter_constraints
+	: WHERE declaratorid ':' type_parameter_constraints
 	;
 
 type_parameter_constraints
@@ -640,7 +640,7 @@ primary_constraint
 	| UNMANAGED
 	;
 
-// namespace_or_type_name includes identifier
+// namespace_or_type_name includes declaratorid
 secondary_constraints
 	: namespace_or_type_name (',' namespace_or_type_name)*
 	;
@@ -700,7 +700,7 @@ common_member_declaration
 	;
 
 typed_member_declaration
-	: (REF | READONLY REF | REF READONLY)? type_
+	: (REF | READONLY REF | REF READONLY)? typespecifier
 	  ( namespace_or_type_name '.' indexer_declaration
 	  | method_declaration
 	  | property_declaration
@@ -715,7 +715,7 @@ constant_declarators
 	;
 
 constant_declarator
-	: identifier '=' expression
+	: declaratorid '=' expression
 	;
 
 variable_declarators
@@ -723,7 +723,7 @@ variable_declarators
 	;
 
 variable_declarator
-	: identifier ('=' variable_initializer)?
+	: declaratorid ('=' variable_initializer)?
 	;
 
 variable_initializer
@@ -732,7 +732,7 @@ variable_initializer
 	;
 
 return_type
-	: type_
+	: typespecifier
 	| VOID
 	;
 
@@ -769,7 +769,7 @@ parameter_modifier
 	;
 
 parameter_array
-	: attributes? PARAMS array_type identifier
+	: attributes? PARAMS array_type declaratorid
 	;
 
 accessor_declarations
@@ -836,7 +836,7 @@ overloadable_operator
 	;
 
 conversion_operator_declarator
-	: (IMPLICIT | EXPLICIT) OPERATOR type_ OPEN_PARENS arg_declaration CLOSE_PARENS
+	: (IMPLICIT | EXPLICIT) OPERATOR typespecifier OPEN_PARENS arg_declaration CLOSE_PARENS
 	;
 
 constructor_initializer
@@ -859,7 +859,7 @@ struct_body
 
 struct_member_declaration
 	: attributes? all_member_modifiers?
-	  (common_member_declaration | FIXED type_ fixed_size_buffer_declarator+ ';')
+	  (common_member_declaration | FIXED typespecifier fixed_size_buffer_declarator+ ';')
 	;
 
 //B.2.9 Arrays
@@ -881,7 +881,7 @@ variant_type_parameter_list
 	;
 
 variant_type_parameter
-	: attributes? variance_annotation? identifier
+	: attributes? variance_annotation? declaratorid
 	;
 
 variance_annotation
@@ -898,12 +898,12 @@ interface_body // ignored in csharp 8
 
 interface_member_declaration
 	: attributes? NEW?
-	  (UNSAFE? (REF | REF READONLY | READONLY REF)? type_
-	    ( identifier type_parameter_list? OPEN_PARENS formal_parameter_list? CLOSE_PARENS type_parameter_constraints_clauses? ';'
-	    | identifier OPEN_BRACE interface_accessors CLOSE_BRACE
+	  (UNSAFE? (REF | REF READONLY | READONLY REF)? typespecifier
+	    ( declaratorid type_parameter_list? OPEN_PARENS formal_parameter_list? CLOSE_PARENS type_parameter_constraints_clauses? ';'
+	    | declaratorid OPEN_BRACE interface_accessors CLOSE_BRACE
 	    | THIS '[' formal_parameter_list ']' OPEN_BRACE interface_accessors CLOSE_BRACE)
-	  | UNSAFE? VOID identifier type_parameter_list? OPEN_PARENS formal_parameter_list? CLOSE_PARENS type_parameter_constraints_clauses? ';'
-	  | EVENT type_ identifier ';')
+	  | UNSAFE? VOID declaratorid type_parameter_list? OPEN_PARENS formal_parameter_list? CLOSE_PARENS type_parameter_constraints_clauses? ';'
+	  | EVENT typespecifier declaratorid ';')
 	;
 
 interface_accessors
@@ -912,7 +912,7 @@ interface_accessors
 
 //B.2.11 Enums
 enum_base
-	: ':' type_
+	: ':' typespecifier
 	;
 
 enum_body
@@ -920,7 +920,7 @@ enum_body
 	;
 
 enum_member_declaration
-	: attributes? identifier ('=' expression)?
+	: attributes? declaratorid ('=' expression)?
 	;
 
 //B.2.12 Delegates
@@ -932,7 +932,7 @@ global_attribute_section
 
 global_attribute_target
 	: keyword
-	| identifier
+	| declaratorid
 	;
 
 attributes
@@ -945,7 +945,7 @@ attribute_section
 
 attribute_target
 	: keyword
-	| identifier
+	| declaratorid
 	;
 
 attribute_list
@@ -957,7 +957,7 @@ attribute
 	;
 
 attribute_argument
-	: (identifier ':')? expression
+	: (declaratorid ':')? expression
 	;
 
 //B.3 Grammar extensions for unsafe code
@@ -971,7 +971,7 @@ fixed_pointer_declarators
 	;
 
 fixed_pointer_declarator
-	: identifier '=' fixed_pointer_initializer
+	: declaratorid '=' fixed_pointer_initializer
 	;
 
 fixed_pointer_initializer
@@ -980,12 +980,12 @@ fixed_pointer_initializer
 	;
 
 fixed_size_buffer_declarator
-	: identifier '[' expression ']'
+	: declaratorid '[' expression ']'
 	;
 
 stackalloc_initializer
-	: STACKALLOC type_ '[' expression ']'
-	| STACKALLOC type_? '[' expression? ']' OPEN_BRACE expression (',' expression)* ','? CLOSE_BRACE
+	: STACKALLOC typespecifier '[' expression ']'
+	| STACKALLOC typespecifier? '[' expression? ']' OPEN_BRACE expression (',' expression)* ','? CLOSE_BRACE
 	;
 
 right_arrow
@@ -1135,31 +1135,31 @@ keyword
 // -------------------- extra rules for modularization --------------------------------
 
 class_definition
-	: CLASS identifier type_parameter_list? class_base? type_parameter_constraints_clauses?
+	: CLASS declaratorid type_parameter_list? class_base? type_parameter_constraints_clauses?
 	    class_body ';'?
 	;
 
 struct_definition
-	: (READONLY | REF)? STRUCT identifier type_parameter_list? struct_interfaces? type_parameter_constraints_clauses?
+	: (READONLY | REF)? STRUCT declaratorid type_parameter_list? struct_interfaces? type_parameter_constraints_clauses?
 	    struct_body ';'?
 	;
 
 interface_definition
-	: INTERFACE identifier variant_type_parameter_list? interface_base?
+	: INTERFACE declaratorid variant_type_parameter_list? interface_base?
 	    type_parameter_constraints_clauses? class_body ';'?
 	;
 
 enum_definition
-	: ENUM identifier enum_base? enum_body ';'?
+	: ENUM declaratorid enum_base? enum_body ';'?
 	;
 
 delegate_definition
-	: DELEGATE return_type identifier variant_type_parameter_list?
+	: DELEGATE return_type declaratorid variant_type_parameter_list?
 	  OPEN_PARENS formal_parameter_list? CLOSE_PARENS type_parameter_constraints_clauses? ';'
 	;
 
 event_declaration
-	: EVENT type_ (variable_declarators ';' | member_name OPEN_BRACE event_accessor_declarations CLOSE_BRACE)
+	: EVENT typespecifier (variable_declarators ';' | member_name OPEN_BRACE event_accessor_declarations CLOSE_BRACE)
 	;
 
 field_declaration
@@ -1171,7 +1171,7 @@ property_declaration // Property initializer & lambda in properties C# 6
 	;
 
 constant_declaration
-	: CONST type_ constant_declarators ';'
+	: CONST typespecifier constant_declarators ';'
 	;
 
 indexer_declaration // lamdas from C# 6
@@ -1179,11 +1179,11 @@ indexer_declaration // lamdas from C# 6
 	;
 
 destructor_definition
-	: '~' identifier OPEN_PARENS CLOSE_PARENS body
+	: '~' declaratorid OPEN_PARENS CLOSE_PARENS body
 	;
 
 constructor_declaration
-	: identifier OPEN_PARENS formal_parameter_list? CLOSE_PARENS constructor_initializer? body
+	: declaratorid OPEN_PARENS formal_parameter_list? CLOSE_PARENS constructor_initializer? body
 	;
 
 method_declaration // lamdas from C# 6
@@ -1192,7 +1192,7 @@ method_declaration // lamdas from C# 6
 	;
 
 method_member_name
-	: (identifier | identifier '::' identifier) (type_argument_list? '.' identifier)*
+	: (declaratorid | declaratorid '::' declaratorid) (type_argument_list? '.' declaratorid)*
 	;
 
 operator_declaration // lamdas form C# 6
@@ -1201,7 +1201,7 @@ operator_declaration // lamdas form C# 6
 	;
 
 arg_declaration
-	: type_ identifier ('=' expression)?
+	: typespecifier declaratorid ('=' expression)?
 	;
 
 method_invocation
@@ -1212,7 +1212,7 @@ object_creation_expression
 	: OPEN_PARENS argument_list? CLOSE_PARENS object_or_collection_initializer?
 	;
 
-identifier
+declaratorid
 	: IDENTIFIER
 	| ADD
 	| ALIAS
