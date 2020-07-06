@@ -1,9 +1,7 @@
 ﻿using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
 using Sast.CodeExplorer.Cores;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Sast.CodeExplorer.Visitors
 {
@@ -24,19 +22,19 @@ namespace Sast.CodeExplorer.Visitors
 		{
 			if (ParseTreeUtility.IsMatchedContext("functiondefinition", node) == true)
 			{
-				var typeNode = ParseTreeUtility.GetMatchedContext("declspecifierseq", node);
-				TypeNameVisitor typeVisitor = new TypeNameVisitor();
-				typeVisitor.Visit(typeNode);
-
-				var nameNode = ParseTreeUtility.GetMatchedContext("declarator", node);
 				FunctionNameVisitor nameVisitor = new FunctionNameVisitor();
-				nameVisitor.Visit(nameNode);
+				if (ParseTreeUtility.TryChildContext("declarator", node, out IParseTree nameNode) == true)
+				{
+					nameVisitor.Visit(nameNode);
 
-				var bodyode = ParseTreeUtility.GetMatchedContext("functionbody", node);
-				FunctionBodyVisitor bodyVisitor = new FunctionBodyVisitor();
-				bodyVisitor.Visit(bodyode);
+					FunctionBodyVisitor bodyVisitor = new FunctionBodyVisitor();
+					if (ParseTreeUtility.TryChildContext("functionbody", node, out IParseTree bodynode) == true)
+					{
+						bodyVisitor.Visit(bodynode);
+					}
 
-				FunctionBodyMap.Add(nameVisitor.Name, bodyVisitor.Node);
+					FunctionBodyMap.Add(nameVisitor.Name, bodyVisitor.Node);
+				}
 			}
 
 			return base.VisitChildren(node);

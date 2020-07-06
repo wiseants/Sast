@@ -1,32 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Linq;
-using NLog.Time;
-using Antlr4.Runtime.Dfa;
 using System.Reflection;
 
 namespace Sast.CodeExplorer.Models
 {
 	public class LanguageType
 	{
-		#region Fields
-
-		private static readonly Dictionary<string, LanguageType> _extensionMap = new Dictionary<string, LanguageType>();
-
-		#endregion
-
 		#region Constructors
 
-		private LanguageType(string keyword, params string[] extensionNames)
+		private LanguageType()
 		{
-			Keyword = keyword;
-			ExtenstionList = new List<string>(extensionNames);
 
-			foreach (string extension in ExtenstionList)
-			{
-				_extensionMap.Add(extension, this);
-			}
 		}
 
 		#endregion
@@ -37,8 +21,10 @@ namespace Sast.CodeExplorer.Models
 		{
 			get
 			{
-				return new LanguageType(
-					"None");
+				return new LanguageType()
+				{
+					Keyword = "None",
+				};
 			}
 		}
 
@@ -46,9 +32,11 @@ namespace Sast.CodeExplorer.Models
 		{
 			get
 			{
-				return new LanguageType(
-					"cpp",
-					".cpp", ".h", ".hpp");
+				return new LanguageType()
+				{
+					Keyword = "cpp",
+					ExtenstionList = { ".cpp", ".h", ".hpp" }
+				};
 			}
 		}
 
@@ -56,9 +44,11 @@ namespace Sast.CodeExplorer.Models
 		{
 			get
 			{
-				return new LanguageType(
-					"csharp",
-					".cs");
+				return new LanguageType()
+				{
+					Keyword = "csharp",
+					ExtenstionList = { ".cs" }
+				};
 			}
 		}
 
@@ -71,7 +61,8 @@ namespace Sast.CodeExplorer.Models
 		public IList<string> ExtenstionList
 		{
 			get;
-		}
+			private set;
+		} = new List<string>();
 
 		#endregion
 
@@ -87,30 +78,26 @@ namespace Sast.CodeExplorer.Models
 
 			foreach (var languageType in infos)
 			{
-				if (languageType.ExtenstionList.Contains(extensionName) == true)
+				if (languageType.ExtenstionList.Contains(extensionName) == false)
 				{
-					type = languageType;
-					return type;
+					continue;
 				}
+
+				type = languageType;
+
+				return type;
 			}
 
 			return type;
 		}
 
-		public static bool operator == (LanguageType leftType, LanguageType rightType)
-		{
-			return leftType.Keyword == rightType.Keyword;
-		}
+		#endregion
 
-		public static bool operator != (LanguageType leftType, LanguageType rightType)
-		{
-			return leftType.Keyword != rightType.Keyword;
-		}
+		#region Override methods
 
 		public override bool Equals(object obj)
 		{
-			LanguageType type = obj as LanguageType;
-			if (type != null)
+			if (obj is LanguageType type)
 			{
 				return Keyword == type.Keyword;
 			}

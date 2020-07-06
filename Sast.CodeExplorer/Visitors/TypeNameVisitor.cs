@@ -1,9 +1,6 @@
 ﻿using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
 using Sast.CodeExplorer.Cores;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Sast.CodeExplorer.Visitors
 {
