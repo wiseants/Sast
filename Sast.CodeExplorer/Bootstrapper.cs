@@ -3,18 +3,18 @@ using NLog;
 using Sast.Antlr.Grammars;
 using Sast.CodeExplorer.Cores.VisitorFactory;
 using Sast.CodeExplorer.Interfaces;
+using Sast.Utility.Templates;
 using System;
 using Unity;
 using Unity.Resolution;
 
 namespace Sast.CodeExplorer
 {
-	internal class Bootstrapper
+	internal class Bootstrapper : Singleton<Bootstrapper>
     {
         #region Fileds
 
-        private static Bootstrapper instance = null;
-        private IUnityContainer container = new UnityContainer();
+        private readonly IUnityContainer container = new UnityContainer();
 
         #endregion
 
@@ -23,23 +23,6 @@ namespace Sast.CodeExplorer
         private Bootstrapper()
         {
             BuildContainer();
-        }
-
-        #endregion
-
-        #region Properties
-
-        public static Bootstrapper Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new Bootstrapper();
-                }
-
-                return instance;
-            }
         }
 
         #endregion
