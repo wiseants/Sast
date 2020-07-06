@@ -1,13 +1,15 @@
 ﻿using Antlr4.Runtime;
 using NLog;
 using Sast.Antlr.Grammars;
+using Sast.CodeExplorer.Cores.VisitorFactory;
+using Sast.CodeExplorer.Interfaces;
 using System;
 using Unity;
 using Unity.Resolution;
 
 namespace Sast.CodeExplorer
 {
-    internal class Bootstrapper
+	internal class Bootstrapper
     {
         #region Fileds
 
@@ -82,17 +84,19 @@ namespace Sast.CodeExplorer
 
         private void BuildContainer()
         {
-            //container.RegisterType<Lexer, ExprLexer>();
-            //container.RegisterType<Lexer, CPP14Lexer>();
+            // 렉서.
             container.RegisterType<Lexer, CSharpLexer>("csharp");
             container.RegisterType<Lexer, CPP14Lexer>("cpp");
 
-            //container.RegisterType<Parser, ExprParser>();
-            //container.RegisterType<Parser, CPP14Parser>();
+            // 파서.
             container.RegisterType<Parser, CSharpParser>("csharp");
             container.RegisterType<Parser, CPP14Parser>("cpp");
-        }
 
-        #endregion
-    }
+            // 비지터.
+			container.RegisterType<IVisitorFactory, CppVisitorFactory>("csharp");
+			container.RegisterType<IVisitorFactory, CppVisitorFactory>("cpp");
+		}
+
+		#endregion
+	}
 }

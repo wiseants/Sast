@@ -2,11 +2,13 @@
 using Antlr4.Runtime.Tree;
 using NLog;
 using Sast.CodeExplorer.Cores;
+using Sast.CodeExplorer.Interfaces;
 using Sast.CodeExplorer.Models;
 using Sast.Utility.Templates;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Unity.Resolution;
 
 namespace Sast.CodeExplorer.Managers
@@ -18,10 +20,17 @@ namespace Sast.CodeExplorer.Managers
         /// <summary>
         /// 파일이름을 키워드로 하는 파스트리맵.
         /// </summary>
-        public Dictionary<string, IParseTree> ParseTreeMap
+        public IDictionary<string, IParseTree> ParseTreeMap
         {
             get;
-        } = new Dictionary<string, IParseTree>();
+			private set;
+		} = new Dictionary<string, IParseTree>();
+
+        public IDictionary<string, IRuleNode> FunctionBodyMap
+        {
+            get;
+            private set;
+        } = new Dictionary<string, IRuleNode>();
 
         #endregion
 
@@ -72,7 +81,15 @@ namespace Sast.CodeExplorer.Managers
                 LogManager.GetCurrentClassLogger().Error(ex.Message);
             }
 
-            return isSuccess;
+			var parseTree = ParseTreeMap.Values.FirstOrDefault();
+			if (parseTree != null)
+			{
+                var funcDeclareVisitor = Bootstrapper.Instance.CreateContainer<IVisitorFactory>(type.Keyword).FunctionVisitor;
+                FunctionBodyMap = funcDeclareVisitor.Visit(parseTree);
+            }
+
+
+			return isSuccess;
         }
 
         #endregion

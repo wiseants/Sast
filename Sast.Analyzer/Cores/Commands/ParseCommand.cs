@@ -1,12 +1,10 @@
 ﻿using CommandLine;
 using Sast.Analyzer.Interfaces;
 using Sast.CodeExplorer.Managers;
-using Sast.CodeExplorer.Visitors;
-using System.Linq;
 
 namespace Sast.Analyzer.Cores.Commands
 {
-    [Verb("parse", HelpText = "Parse to C# code.")]
+	[Verb("parse", HelpText = "Parse to C# code.")]
     public class ParseCommand : IAction
     {
         #region Properties
@@ -30,13 +28,6 @@ namespace Sast.Analyzer.Cores.Commands
         public int Action()
         {
             ParserManager.Instance.FileParse(@FileFullPath);
-
-            var parseTree = ParserManager.Instance.ParseTreeMap.Values.FirstOrDefault();
-            if (parseTree != null)
-            {
-                FunctionVisitor funcDeclareVisitor = new FunctionVisitor();
-                funcDeclareVisitor.Visit(parseTree);
-            }
 
             return 1;
         }
