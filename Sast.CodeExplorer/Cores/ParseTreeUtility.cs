@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using System;
+using System.Reflection;
 
 namespace Sast.CodeExplorer.Cores
 {
@@ -32,6 +33,11 @@ namespace Sast.CodeExplorer.Cores
         {
             return tree.GetType().Name.Equals(ruleName + "context", StringComparison.OrdinalIgnoreCase);
         }
+
+        public static IParseTree GetMatchedContext(string ruleName, IParseTree tree)
+		{
+            return tree.GetType().GetMethod(ruleName).Invoke(tree, null) as IParseTree;
+		}
 
         #endregion
     }

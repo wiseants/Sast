@@ -84,13 +84,13 @@ namespace Sast.CodeExplorer
         {
             //container.RegisterType<Lexer, ExprLexer>();
             //container.RegisterType<Lexer, CPP14Lexer>();
-            //container.RegisterType<Lexer, CSharpLexer>();
-            container.RegisterType<Lexer, CPP14Lexer>();
+            container.RegisterType<Lexer, CSharpLexer>("csharp");
+            container.RegisterType<Lexer, CPP14Lexer>("cpp");
 
             //container.RegisterType<Parser, ExprParser>();
             //container.RegisterType<Parser, CPP14Parser>();
-            //container.RegisterType<Parser, CSharpParser>();
-            container.RegisterType<Parser, CPP14Parser>();
+            container.RegisterType<Parser, CSharpParser>("csharp");
+            container.RegisterType<Parser, CPP14Parser>("cpp");
         }
 
         #endregion

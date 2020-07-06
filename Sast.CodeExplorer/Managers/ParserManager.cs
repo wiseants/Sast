@@ -2,6 +2,7 @@
 using Antlr4.Runtime.Tree;
 using NLog;
 using Sast.CodeExplorer.Cores;
+using Sast.CodeExplorer.Models;
 using Sast.Utility.Templates;
 using System;
 using System.Collections.Generic;
@@ -44,14 +45,20 @@ namespace Sast.CodeExplorer.Managers
         {
             bool isSuccess = false;
 
-            try
-            {
-                var lexer = Bootstrapper.Instance.CreateContainer<Lexer>(new ResolverOverride[]
+			LanguageType type = LanguageType.GetLanguageType(new FileInfo(fileFullPath).Extension);
+            if (type == LanguageType.None)
+			{
+                return isSuccess;
+			}
+
+			try
+			{
+                var lexer = Bootstrapper.Instance.CreateContainer<Lexer>(type.Keyword, new ResolverOverride[]
                 {
                 new ParameterOverride("input", new AntlrInputStream(File.ReadAllText(@fileFullPath)))
                 });
 
-                var parser = Bootstrapper.Instance.CreateContainer<Antlr4.Runtime.Parser>(new ResolverOverride[]
+                var parser = Bootstrapper.Instance.CreateContainer<Parser>(type.Keyword, new ResolverOverride[]
                 {
                 new ParameterOverride("input", new CommonTokenStream(lexer))
                 });
@@ -59,9 +66,6 @@ namespace Sast.CodeExplorer.Managers
 
                 ParseTreeMap.Add(fileFullPath, ParseTreeUtility.GetNode("translationunit", parser));
                 isSuccess = true;
-
-                //DeclarationVisitor declareVisitor = new DeclarationVisitor();
-                //declareVisitor.Visit(ParseTreeMap.Values.FirstOrDefault());
             }
             catch (Exception ex)
             {

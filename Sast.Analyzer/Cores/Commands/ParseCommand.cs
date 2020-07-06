@@ -34,8 +34,8 @@ namespace Sast.Analyzer.Cores.Commands
             var parseTree = ParserManager.Instance.ParseTreeMap.Values.FirstOrDefault();
             if (parseTree != null)
             {
-                DeclarationVisitor declareVisitor = new DeclarationVisitor();
-                declareVisitor.Visit(parseTree);
+                FunctionVisitor funcDeclareVisitor = new FunctionVisitor();
+                funcDeclareVisitor.Visit(parseTree);
             }
 
             return 1;
