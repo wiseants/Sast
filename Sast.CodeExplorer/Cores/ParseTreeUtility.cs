@@ -1,14 +1,16 @@
 ﻿using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
+using Sast.CodeExplorer.Cores.Visitors;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Sast.CodeExplorer.Cores
 {
-    /// <summary>
-    /// 파스트리에서 사용하는 유틸리티 메소드.
-    /// </summary>
-    public class ParseTreeUtility
+	/// <summary>
+	/// 파스트리에서 사용하는 유틸리티 메소드.
+	/// </summary>
+	public class ParseTreeUtility
     {
         #region Public methods
 
@@ -60,6 +62,28 @@ namespace Sast.CodeExplorer.Cores
 			matchedTree = isExist ? info.Invoke(tree, null) as IParseTree : null;
 
             return isExist;
+        }
+
+        /// <summary>
+        /// 하위 노드들중 전달된 룰이름을 가진 노드의 터미널노드들을 가져옵니다.
+        /// </summary>
+        /// <param name="ruleName"></param>
+        /// <param name="tree"></param>
+        /// <returns></returns>
+        public static ICollection<ITerminalNode> GetTerminals(string ruleName, IParseTree tree)
+		{
+            return new RuleTerminalVisitor() { RuleName = ruleName }.Visit(tree);
+		}
+
+        /// <summary>
+        /// 하위 노드들중 전달된 룰이름을 가진 노드를 가져옵니다.
+        /// </summary>
+        /// <param name="ruleName"></param>
+        /// <param name="tree"></param>
+        /// <returns></returns>
+        public static ICollection<IRuleNode> GetChildren(string ruleName, IParseTree tree)
+        {
+            return new RuleChildrenVisitor() { RuleName = ruleName }.Visit(tree);
         }
 
         #endregion

@@ -9,15 +9,7 @@ namespace Sast.CodeExplorer.Cores.VisitorFactory
 	{
 		#region Properties
 
-		public IParseTreeVisitor<string> TerminalVisitor => new TerminalVisitor();
-
-		public IParseTreeVisitor<string> TypeNameVisitor => new TypeNameVisitor();
-
-		public IParseTreeVisitor<string> FunctionNameVisitor => new FunctionNameVisitor();
-
 		public IParseTreeVisitor<IDictionary<string, IRuleNode>> FunctionVisitor => new FunctionVisitor();
-
-		public IParseTreeVisitor<IRuleNode> FunctionBodyVisitor => new FunctionBodyVisitor();
 
 		#endregion
 	}

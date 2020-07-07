@@ -10,15 +10,7 @@ namespace Sast.CodeExplorer.Cores.VisitorFactory
 	{
 		#region Properties
 
-		public IParseTreeVisitor<string> TerminalVisitor => new TerminalVisitor() { Type = LanguageType.CSharp };
-
-		public IParseTreeVisitor<string> TypeNameVisitor => new TypeNameVisitor() { Type = LanguageType.CSharp };
-
-		public IParseTreeVisitor<string> FunctionNameVisitor => new FunctionNameVisitor() { Type = LanguageType.CSharp };
-
 		public IParseTreeVisitor<IDictionary<string, IRuleNode>> FunctionVisitor => new FunctionVisitor() { Type = LanguageType.CSharp };
-
-		public IParseTreeVisitor<IRuleNode> FunctionBodyVisitor => new FunctionBodyVisitor() { Type = LanguageType.CSharp };
 
 		#endregion
 	}

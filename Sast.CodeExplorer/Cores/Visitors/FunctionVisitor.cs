@@ -1,16 +1,15 @@
 ﻿using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
-using Sast.CodeExplorer.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Sast.CodeExplorer.Cores.Visitors
 {
-	public class FunctionVisitor : BaseParseTreeVisitor<IDictionary<string, IRuleNode>>
+	public class FunctionVisitor : BaseParseTreeVisitor<Dictionary<string, IRuleNode>>
 	{
 		#region Override methods
 
-		public override IDictionary<string, IRuleNode> VisitChildren([NotNull] IRuleNode node)
+		public override Dictionary<string, IRuleNode> VisitChildren([NotNull] IRuleNode node)
 		{
 			if (ParseTreeUtility.IsMatchedContext("functiondefinition", node) == true)
 			{
@@ -19,14 +18,12 @@ namespace Sast.CodeExplorer.Cores.Visitors
 
 				if (ParseTreeUtility.TryChildContext("declarator", node, out IParseTree nameNode) == true)
 				{
-					var nameVisitor = Bootstrapper.Instance.CreateContainer<IVisitorFactory>(Type.Keyword).FunctionNameVisitor;
-					functionName = nameVisitor.Visit(nameNode);
+					functionName = ParseTreeUtility.GetTerminals("declaratorid", nameNode).FirstOrDefault().GetText();
 				}
 
 				if (ParseTreeUtility.TryChildContext("functionbody", node, out IParseTree bodynode) == true)
 				{
-					var bodyVisitor = Bootstrapper.Instance.CreateContainer<IVisitorFactory>(Type.Keyword).FunctionBodyVisitor;
-					functionBody = bodyVisitor.Visit(bodynode);
+					functionBody = ParseTreeUtility.GetChildren("compoundstatement", bodynode).FirstOrDefault();
 				}
 
 				return string.IsNullOrEmpty(functionName) == false && functionBody != null ? new Dictionary<string, IRuleNode>()
@@ -38,26 +35,30 @@ namespace Sast.CodeExplorer.Cores.Visitors
 			return base.VisitChildren(node);
 		}
 
-		protected override IDictionary<string, IRuleNode> AggregateResult(
-			IDictionary<string, IRuleNode> aggregate, 
-			IDictionary<string, IRuleNode> nextResult)
+		protected override Dictionary<string, IRuleNode> AggregateResult(
+			Dictionary<string, IRuleNode> aggregate, 
+			Dictionary<string, IRuleNode> nextResult)
 		{
-			if (aggregate != null && nextResult == null)
+			Dictionary<string, IRuleNode> results = null;
+			if (aggregate != null)
 			{
-				return aggregate;
+				results = results ?? new Dictionary<string, IRuleNode>();
+				foreach(var pair in aggregate)
+				{
+					results.Add(pair.Key, pair.Value);
+				}
 			}
-			else if (aggregate == null && nextResult != null)
+
+			if (nextResult != null)
 			{
-				return nextResult;
+				results = results ?? new Dictionary<string, IRuleNode>();
+				foreach (var pair in nextResult)
+				{
+					results.Add(pair.Key, pair.Value);
+				}
 			}
-			else if (aggregate != null && nextResult != null)
-			{
-				return aggregate.Concat(nextResult).GroupBy(x => x.Key).ToDictionary(x => x.Key, x => x.First().Value);
-			}
-			else
-			{
-				return null;
-			}
+
+			return results;
 		}
 
 		#endregion

@@ -3,13 +3,16 @@ using Antlr4.Runtime.Tree;
 
 namespace Sast.CodeExplorer.Cores.Visitors
 {
-	public class TerminalVisitor : BaseParseTreeVisitor<string>
+    /// <summary>
+    /// 터미널 노드 비지터입니다.
+    /// </summary>
+	public class TerminalVisitor : AbstractParseTreeVisitor<ITerminalNode>
     {
 		#region Override mehtods
 
-		public override string VisitTerminal([NotNull] ITerminalNode node)
+		public override ITerminalNode VisitTerminal([NotNull] ITerminalNode node)
         {
-            return node.GetText();
+            return node;
         }
 
         #endregion
