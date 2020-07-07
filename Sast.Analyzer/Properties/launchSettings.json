@@ -2,7 +2,7 @@
   "profiles": {
     "Sast.Analyzer": {
       "commandName": "Project",
-      "commandLineArgs": "parse -f \"$(SolutionDir)\\..\\Targets\\CppTest.cpp\""
+      "commandLineArgs": "parse -f \"$(SolutionDir)\\..\\Targets\\CSharpTest.cs\""
     }
   }
 }
