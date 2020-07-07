@@ -1,5 +1,4 @@
 ﻿using Antlr4.Runtime.Tree;
-using Sast.CodeExplorer.Cores.Visitors.Cpp;
 using Sast.CodeExplorer.Interfaces;
 using Sast.CodeExplorer.Models;
 using System.Collections.Generic;
