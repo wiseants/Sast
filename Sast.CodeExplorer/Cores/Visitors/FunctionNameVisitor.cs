@@ -7,23 +7,13 @@ namespace Sast.CodeExplorer.Cores.Visitors
 {
 	public class FunctionNameVisitor : BaseParseTreeVisitor<string>
 	{
-		#region Constructor
-
-		public FunctionNameVisitor(LanguageType type) 
-			: base(type)
-		{
-
-		}
-
-		#endregion
-
 		#region Override methods
 
 		public override string VisitChildren([NotNull] IRuleNode node)
 		{
 			if (ParseTreeUtility.IsMatchedContext("declaratorid", node) == true)
 			{
-				return Bootstrapper.Instance.CreateContainer<IVisitorFactory>(LanguageType.Keyword).TerminalVisitor.Visit(node);
+				return Bootstrapper.Instance.CreateContainer<IVisitorFactory>(Type.Keyword).TerminalVisitor.Visit(node);
 			}
 
 			return base.VisitChildren(node);

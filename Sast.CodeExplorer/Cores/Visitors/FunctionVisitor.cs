@@ -9,16 +9,6 @@ namespace Sast.CodeExplorer.Cores.Visitors
 {
 	public class FunctionVisitor : BaseParseTreeVisitor<IDictionary<string, IRuleNode>>
 	{
-		#region Constructor
-
-		public FunctionVisitor(LanguageType type)
-			: base(type)
-		{
-
-		}
-
-		#endregion
-
 		#region Override methods
 
 		public override IDictionary<string, IRuleNode> VisitChildren([NotNull] IRuleNode node)
@@ -30,13 +20,13 @@ namespace Sast.CodeExplorer.Cores.Visitors
 
 				if (ParseTreeUtility.TryChildContext("declarator", node, out IParseTree nameNode) == true)
 				{
-					var nameVisitor = Bootstrapper.Instance.CreateContainer<IVisitorFactory>(LanguageType.Keyword).FunctionNameVisitor;
+					var nameVisitor = Bootstrapper.Instance.CreateContainer<IVisitorFactory>(Type.Keyword).FunctionNameVisitor;
 					functionName = nameVisitor.Visit(nameNode);
 				}
 
 				if (ParseTreeUtility.TryChildContext("functionbody", node, out IParseTree bodynode) == true)
 				{
-					var bodyVisitor = Bootstrapper.Instance.CreateContainer<IVisitorFactory>(LanguageType.Keyword).FunctionBodyVisitor;
+					var bodyVisitor = Bootstrapper.Instance.CreateContainer<IVisitorFactory>(Type.Keyword).FunctionBodyVisitor;
 					functionBody = bodyVisitor.Visit(bodynode);
 				}
 

@@ -23,7 +23,7 @@ namespace Sast.CodeExplorer.Models
 			{
 				return new LanguageType()
 				{
-					Keyword = "None",
+					Keyword = "none",
 				};
 			}
 		}

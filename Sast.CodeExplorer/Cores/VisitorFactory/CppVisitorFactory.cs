@@ -10,30 +10,15 @@ namespace Sast.CodeExplorer.Cores.VisitorFactory
 	{
 		#region Properties
 
-		public IParseTreeVisitor<string> TerminalVisitor
-		{
-			get { return new TerminalVisitor(LanguageType.CPP); }
-		}
+		public IParseTreeVisitor<string> TerminalVisitor => new TerminalVisitor() { Type = LanguageType.CPP };
 
-		public IParseTreeVisitor<string> TypeNameVisitor
-		{
-			get { return new TypeNameVisitor(LanguageType.CPP); }
-		}
+		public IParseTreeVisitor<string> TypeNameVisitor => new TypeNameVisitor() { Type = LanguageType.CPP };
 
-		public IParseTreeVisitor<string> FunctionNameVisitor
-		{
-			get { return new FunctionNameVisitor(LanguageType.CPP); }
-		}
+		public IParseTreeVisitor<string> FunctionNameVisitor => new FunctionNameVisitor() { Type = LanguageType.CPP };
 
-		public IParseTreeVisitor<IDictionary<string, IRuleNode>> FunctionVisitor
-		{
-			get { return new FunctionVisitor(LanguageType.CPP); }
-		}
+		public IParseTreeVisitor<IDictionary<string, IRuleNode>> FunctionVisitor => new FunctionVisitor() { Type = LanguageType.CPP };
 
-		public IParseTreeVisitor<IRuleNode> FunctionBodyVisitor
-		{
-			get { return new FunctionBodyVisitor(LanguageType.CPP); }
-		}
+		public IParseTreeVisitor<IRuleNode> FunctionBodyVisitor => new FunctionBodyVisitor() { Type = LanguageType.CPP };
 
 		#endregion
 	}

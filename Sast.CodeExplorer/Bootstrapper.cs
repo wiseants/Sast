@@ -75,7 +75,8 @@ namespace Sast.CodeExplorer
             container.RegisterType<Parser, CSharpParser>("csharp");
             container.RegisterType<Parser, CPP14Parser>("cpp");
 
-            // 비지터.
+			// 비지터.
+			container.RegisterType<IVisitorFactory, CppVisitorFactory>("none");
 			container.RegisterType<IVisitorFactory, CppVisitorFactory>("csharp");
 			container.RegisterType<IVisitorFactory, CppVisitorFactory>("cpp");
 		}

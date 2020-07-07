@@ -6,16 +6,6 @@ namespace Sast.CodeExplorer.Cores.Visitors
 {
 	public class FunctionBodyVisitor : BaseParseTreeVisitor<IRuleNode>
 	{
-		#region Constructors
-
-		public FunctionBodyVisitor(LanguageType type)
-			: base(type)
-		{
-
-		}
-
-		#endregion
-
 		#region Override methods
 
 		public override IRuleNode VisitChildren([NotNull] IRuleNode node)

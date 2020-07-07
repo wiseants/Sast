@@ -6,16 +6,6 @@ namespace Sast.CodeExplorer.Cores.Visitors
 {
 	public class TerminalVisitor : BaseParseTreeVisitor<string>
     {
-		#region Constructor
-
-		public TerminalVisitor(LanguageType type)
-			: base(type)
-		{
-
-		}
-
-		#endregion
-
 		#region Override mehtods
 
 		public override string VisitTerminal([NotNull] ITerminalNode node)

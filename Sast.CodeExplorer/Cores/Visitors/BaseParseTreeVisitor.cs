@@ -7,21 +7,11 @@ namespace Sast.CodeExplorer.Cores.Visitors
 	{
 		#region Properties
 
-		public LanguageType LanguageType
+		public LanguageType Type
 		{
 			get;
-			private set;
-		}
-
-		#endregion
-
-		#region Constructors
-
-		public BaseParseTreeVisitor(LanguageType type)
-			: base()
-		{
-			LanguageType = type;
-		}
+			set;
+		} = LanguageType.None;
 
 		#endregion
 	}
