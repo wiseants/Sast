@@ -1,10 +1,7 @@
 ﻿using Antlr4.Runtime.Tree;
 using Sast.CodeExplorer.Cores.Visitors;
 using Sast.CodeExplorer.Interfaces;
-using Sast.CodeExplorer.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Sast.CodeExplorer.Cores.VisitorFactory
 {
