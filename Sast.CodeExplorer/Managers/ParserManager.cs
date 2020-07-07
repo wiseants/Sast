@@ -73,7 +73,10 @@ namespace Sast.CodeExplorer.Managers
                 });
                 parser.BuildParseTree = true;
 
-                ParseTreeMap.Add(fileFullPath, ParseTreeUtility.GetNode("translationunit", parser));
+                ParseTreeMap.Add(fileFullPath, ParseTreeUtility.GetNode(
+                    Bootstrapper.Instance.CreateContainer<IVisitorFactory>(type.Keyword).RootName, 
+                    parser));
+
                 isSuccess = true;
             }
             catch (Exception ex)

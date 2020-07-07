@@ -8,6 +8,7 @@ namespace Sast.CodeExplorer.Interfaces
 {
 	public interface IVisitorFactory
 	{
+		string RootName { get; }
 		IParseTreeVisitor<IDictionary<string, IRuleNode>> FunctionVisitor { get; }
 	}
 }

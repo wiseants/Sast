@@ -1,7 +1,8 @@
 ﻿using Antlr4.Runtime;
 using NLog;
 using Sast.Antlr.Grammars;
-using Sast.CodeExplorer.Cores.VisitorFactory;
+using Sast.CodeExplorer.Cores.Visitors.Cpp;
+using Sast.CodeExplorer.Cores.Visitors.CSharp;
 using Sast.CodeExplorer.Interfaces;
 using Sast.CodeExplorer.Models;
 using Sast.Utility.Templates;
@@ -77,7 +78,6 @@ namespace Sast.CodeExplorer
             container.RegisterType<Parser, CSharpParser>(LanguageType.CSharp.Keyword);
 
 			// 비지터.
-			container.RegisterType<IVisitorFactory, NoneVisitorFactory>(LanguageType.None.Keyword);
 			container.RegisterType<IVisitorFactory, CppVisitorFactory>(LanguageType.CPP.Keyword);
 			container.RegisterType<IVisitorFactory, CSharpVisitorFactory>(LanguageType.CSharp.Keyword);
 		}

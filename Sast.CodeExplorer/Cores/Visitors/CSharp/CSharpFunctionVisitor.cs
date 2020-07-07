@@ -3,27 +3,27 @@ using Antlr4.Runtime.Tree;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sast.CodeExplorer.Cores.Visitors
+namespace Sast.CodeExplorer.Cores.Visitors.CSharp
 {
-	public class FunctionVisitor : BaseParseTreeVisitor<Dictionary<string, IRuleNode>>
+	public class CSharpFunctionVisitor : BaseParseTreeVisitor<Dictionary<string, IRuleNode>>
 	{
 		#region Override methods
 
 		public override Dictionary<string, IRuleNode> VisitChildren([NotNull] IRuleNode node)
 		{
-			if (ParseTreeUtility.IsMatchedContext("functiondefinition", node) == true)
+			if (ParseTreeUtility.IsMatchedContext("method_declaration", node) == true)
 			{
 				string functionName = string.Empty;
 				IRuleNode functionBody = null;
 
-				if (ParseTreeUtility.TryChildContext("declarator", node, out IParseTree nameNode) == true)
+				if (ParseTreeUtility.TryChildContext("method_member_name", node, out IParseTree nameNode) == true)
 				{
-					functionName = ParseTreeUtility.GetTerminals("declaratorid", nameNode).FirstOrDefault().GetText();
+					functionName = ParseTreeUtility.GetTerminals("identifier", nameNode).FirstOrDefault().GetText();
 				}
 
-				if (ParseTreeUtility.TryChildContext("functionbody", node, out IParseTree bodynode) == true)
+				if (ParseTreeUtility.TryChildContext("method_body", node, out IParseTree bodynode) == true)
 				{
-					functionBody = ParseTreeUtility.GetChildren("compoundstatement", bodynode).FirstOrDefault();
+					functionBody = ParseTreeUtility.GetChildren("block", bodynode).FirstOrDefault();
 				}
 
 				return string.IsNullOrEmpty(functionName) == false && functionBody != null ? new Dictionary<string, IRuleNode>()
