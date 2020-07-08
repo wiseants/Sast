@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Sast.CodeExplorer.Cores.Visitors.CSharp
 {
-	public class CSharpFunctionVisitor : BaseParseTreeVisitor<Dictionary<string, IRuleNode>>
+	public class FunctionVisitor : BaseParseTreeVisitor<Dictionary<string, IRuleNode>>
 	{
 		#region Override methods
 

@@ -5,13 +5,13 @@ using System.Collections.Generic;
 
 namespace Sast.CodeExplorer.Cores.Visitors.CSharp
 {
-	public class CSharpVisitorFactory : IVisitorFactory
+	public class VisitorFactory : IVisitorFactory
 	{
 		#region Properties
 
 		public string RootName => "compilation_unit";
 
-		public IParseTreeVisitor<IDictionary<string, IRuleNode>> FunctionVisitor => new CSharpFunctionVisitor() { Type = LanguageType.CSharp };
+		public IParseTreeVisitor<IDictionary<string, IRuleNode>> FunctionVisitor => new FunctionVisitor() { Type = LanguageType.CSharp };
 
 		#endregion
 	}

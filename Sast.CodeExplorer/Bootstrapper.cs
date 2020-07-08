@@ -78,8 +78,8 @@ namespace Sast.CodeExplorer
             container.RegisterType<Parser, CSharpParser>(LanguageType.CSharp.Keyword);
 
 			// 비지터.
-			container.RegisterType<IVisitorFactory, CppVisitorFactory>(LanguageType.CPP.Keyword);
-			container.RegisterType<IVisitorFactory, CSharpVisitorFactory>(LanguageType.CSharp.Keyword);
+			container.RegisterType<IVisitorFactory, Cores.Visitors.Cpp.VisitorFactory>(LanguageType.CPP.Keyword);
+			container.RegisterType<IVisitorFactory, Cores.Visitors.CSharp.VisitorFactory>(LanguageType.CSharp.Keyword);
 		}
 
 		#endregion
