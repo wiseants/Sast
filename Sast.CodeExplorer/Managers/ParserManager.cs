@@ -49,17 +49,17 @@ namespace Sast.CodeExplorer.Managers
         /// 파일을 전달하여 파일을 파싱합니다.
         /// </summary>
         /// <param name="fileFullPath">파싱할 파일 전체 경로.</param>
-        /// <returns>참:파싱 성공, 거짓:파싱 실패.</returns>
-        public bool FileParse(string fileFullPath)
+        /// <returns>파싱 성공 여부.</returns>
+        public void FileParse(string fileFullPath)
         {
-            bool isSuccess = false;
-
+            // 언어 타입 찾기.
 			LanguageType type = LanguageType.GetLanguageType(new FileInfo(fileFullPath).Extension);
             if (type == LanguageType.None)
 			{
-                return isSuccess;
+                return;
 			}
 
+            // 코드 파싱.
 			try
 			{
                 var lexer = Bootstrapper.Instance.CreateContainer<Lexer>(type.Keyword, new ResolverOverride[]
@@ -76,23 +76,38 @@ namespace Sast.CodeExplorer.Managers
                 ParseTreeMap.Add(fileFullPath, ParseTreeUtility.GetNode(
                     Bootstrapper.Instance.CreateContainer<IVisitorFactory>(type.Keyword).RootName, 
                     parser));
-
-                isSuccess = true;
             }
             catch (Exception ex)
             {
                 LogManager.GetCurrentClassLogger().Error(ex.Message);
             }
 
+            // 데이터 획득 부분.
 			var parseTree = ParseTreeMap.Values.FirstOrDefault();
 			if (parseTree != null)
 			{
                 var funcDeclareVisitor = Bootstrapper.Instance.CreateContainer<IVisitorFactory>(type.Keyword).FunctionVisitor;
                 FunctionBodyMap = funcDeclareVisitor.Visit(parseTree);
             }
+        }
 
+        /// <summary>
+        /// 폴더명을 전달하여 전체 파일을 파싱합니다.
+        /// </summary>
+        /// <param name="folderFullPath">파싱할 폴더 전체 경로.</param>
+        /// <returns>파싱 성공 여부.</returns>
+        public void FolderParse(string folderFullPath)
+		{
+            if (string.IsNullOrEmpty(folderFullPath) == true)
+			{
+                return;
+			}
 
-			return isSuccess;
+            string[] filePaths = Directory.GetFiles(@folderFullPath, "*.*", SearchOption.AllDirectories);
+            foreach (string fileFullPath in filePaths)
+			{
+                FileParse(fileFullPath);
+            }
         }
 
         #endregion

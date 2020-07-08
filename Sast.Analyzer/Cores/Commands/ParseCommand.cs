@@ -14,20 +14,30 @@ namespace Sast.Analyzer.Cores.Commands
         /// <summary>
         /// 필수 옵션.
         /// </summary>
-        [Option('f', "file", Required = true, HelpText = "file-name.")]
+        [Option('f', "file", Required = false, HelpText = "file-name.")]
         public string @FileFullPath
         {
             get;
             set;
         }
 
-        #endregion
+		/// <summary>
+		/// 필수 옵션.
+		/// </summary>
+		[Option('d', "directory", Required = true, HelpText = "directory-name.")]
+		public string @DirectoryFullPath
+		{
+			get;
+			set;
+		}
 
-        #region Public emthods
+		#endregion
 
-        public int Action()
+		#region Public emthods
+
+		public int Action()
         {
-            ParserManager.Instance.FileParse(@FileFullPath);
+            ParserManager.Instance.FolderParse(@DirectoryFullPath);
 
             return 1;
         }
