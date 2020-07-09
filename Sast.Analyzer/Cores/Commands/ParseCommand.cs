@@ -15,7 +15,7 @@ namespace Sast.Analyzer.Cores.Commands
         /// 필수 옵션.
         /// </summary>
         [Option('f', "file", Required = false, HelpText = "file-name.")]
-        public string @FileFullPath
+        public string FileFullPath
         {
             get;
             set;
@@ -25,7 +25,7 @@ namespace Sast.Analyzer.Cores.Commands
 		/// 필수 옵션.
 		/// </summary>
 		[Option('d', "directory", Required = true, HelpText = "directory-name.")]
-		public string @DirectoryFullPath
+		public string DirectoryFullPath
 		{
 			get;
 			set;
@@ -37,7 +37,7 @@ namespace Sast.Analyzer.Cores.Commands
 
 		public int Action()
         {
-            ParserManager.Instance.FolderParse(@DirectoryFullPath);
+            ParserManager.Instance.FolderParse(DirectoryFullPath);
 
             return 1;
         }

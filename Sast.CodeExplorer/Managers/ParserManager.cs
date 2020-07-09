@@ -8,7 +8,6 @@ using Sast.Utility.Templates;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Unity.Resolution;
 
 namespace Sast.CodeExplorer.Managers
@@ -60,6 +59,7 @@ namespace Sast.CodeExplorer.Managers
 			}
 
             // 코드 파싱.
+            IParseTree currentParseTree = null;
 			try
 			{
                 var lexer = Bootstrapper.Instance.CreateContainer<Lexer>(type.Keyword, new ResolverOverride[]
@@ -73,30 +73,39 @@ namespace Sast.CodeExplorer.Managers
                 });
                 parser.BuildParseTree = true;
 
-                ParseTreeMap.Add(fileFullPath, ParseTreeUtility.GetNode(
-                    Bootstrapper.Instance.CreateContainer<IVisitorFactory>(type.Keyword).RootName, 
-                    parser));
-            }
+                currentParseTree = ParseTreeUtility.GetNode(Bootstrapper.Instance.CreateContainer<IVisitorFactory>(type.Keyword).RootName, parser);
+			}
             catch (Exception ex)
             {
                 LogManager.GetCurrentClassLogger().Error(ex.Message);
             }
 
-            // 데이터 획득 부분.
-			var parseTree = ParseTreeMap.Values.FirstOrDefault();
-			if (parseTree != null)
-			{
-                var funcDeclareVisitor = Bootstrapper.Instance.CreateContainer<IVisitorFactory>(type.Keyword).FunctionVisitor;
-                FunctionBodyMap = funcDeclareVisitor.Visit(parseTree);
+            // 파싱 실패시.
+            if (currentParseTree == null)
+            {
+                return;
             }
-        }
+            LogManager.GetCurrentClassLogger().Debug("Success to parse : Path({0})", @fileFullPath);
 
-        /// <summary>
-        /// 폴더명을 전달하여 전체 파일을 파싱합니다.
-        /// </summary>
-        /// <param name="folderFullPath">파싱할 폴더 전체 경로.</param>
-        /// <returns>파싱 성공 여부.</returns>
-        public void FolderParse(string folderFullPath)
+            // 트리로 부터 데이터 생성.
+            var funcDeclareVisitor = Bootstrapper.Instance.CreateContainer<IVisitorFactory>(type.Keyword).FunctionVisitor;
+			foreach (var pair in funcDeclareVisitor.Visit(currentParseTree))
+			{
+				FunctionBodyMap.Add(pair.Key, pair.Value);
+                LogManager.GetCurrentClassLogger().Debug("Success to extract : Name({0}), ParseTree({1})",
+                    pair.Key,
+                    pair.Value.ToString()); ;
+			}
+
+			ParseTreeMap.Add(fileFullPath, currentParseTree);
+		}
+
+		/// <summary>
+		/// 폴더명을 전달하여 전체 파일을 파싱합니다.
+		/// </summary>
+		/// <param name="folderFullPath">파싱할 폴더 전체 경로.</param>
+		/// <returns>파싱 성공 여부.</returns>
+		public void FolderParse(string folderFullPath)
 		{
             if (string.IsNullOrEmpty(folderFullPath) == true)
 			{
