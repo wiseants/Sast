@@ -10,7 +10,7 @@ namespace Sast.CodeExplorer.Cores.Visitors.Cpp
 
 		public override string VisitUnqualifiedid([NotNull] CPP14Parser.UnqualifiedidContext context)
 		{
-			return new AggregateTerminalTextVisitor().Visit(context); ;
+			return string.Join("", new TerminalVisitor().Visit(context));
 		}
 
 		protected override bool ShouldVisitNextChild([NotNull] IRuleNode node, string currentResult)

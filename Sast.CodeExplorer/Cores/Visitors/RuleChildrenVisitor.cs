@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Sast.CodeExplorer.Cores.Visitors
 {
 	/// <summary>
-	/// 노드에서 전달한 룰이름의 하위노드를 모두 가져옵니다.
+	/// 전달한 룰이름의 하위노드를 모두 가져옵니다.
 	/// </summary>
 	public class RuleChildrenVisitor : AbstractParseTreeVisitor<List<IRuleNode>>
 	{

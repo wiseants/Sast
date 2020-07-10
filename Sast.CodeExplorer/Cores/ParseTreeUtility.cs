@@ -37,18 +37,7 @@ namespace Sast.CodeExplorer.Cores
         }
 
         /// <summary>
-        /// 해당 노드의 차일드 노드를 가져옵니다.
-        /// </summary>
-        /// <param name="childRuleName">차일드 노드 이름.</param>
-        /// <param name="tree">해당 노드 오브젝트.</param>
-        /// <returns>차일드 노드 오브젝트.</returns>
-        public static IParseTree GetChildContext(string childRuleName, IParseTree tree)
-		{
-            return tree.GetType().GetMethod(childRuleName).Invoke(tree, null) as IParseTree;
-		}
-
-        /// <summary>
-        /// 해당 노드의 차일드 노르를 확인하고 가져옵니다.
+        /// 해당 노드의 차일드 노드인지를 확인하고 가져옵니다.
         /// </summary>
         /// <param name="childRuleName">차일드 노드 이름.</param>
         /// <param name="tree">해당 노드 오브젝트.</param>
@@ -65,7 +54,7 @@ namespace Sast.CodeExplorer.Cores
         }
 
         /// <summary>
-        /// 하위 노드들중 전달된 룰이름을 가진 노드의 터미널노드들을 가져옵니다.
+        /// 하위 노드들중 전달된 룰이름을 가진 노드의 터미널노드 컬렉션을 가져옵니다.
         /// </summary>
         /// <param name="ruleName"></param>
         /// <param name="tree"></param>
@@ -76,7 +65,7 @@ namespace Sast.CodeExplorer.Cores
 		}
 
         /// <summary>
-        /// 하위 노드들중 전달된 룰이름을 가진 노드를 가져옵니다.
+        /// 하위 노드들중 전달된 룰이름을 가진 터미널노드 컬렉션을 가져옵니다.
         /// </summary>
         /// <param name="ruleName"></param>
         /// <param name="tree"></param>

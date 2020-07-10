@@ -1,20 +1,39 @@
 ﻿using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
+using System.Collections.Generic;
 
 namespace Sast.CodeExplorer.Cores.Visitors
 {
     /// <summary>
     /// 터미널 노드 비지터입니다.
     /// </summary>
-	public class TerminalVisitor : AbstractParseTreeVisitor<ITerminalNode>
+	public class TerminalVisitor : AbstractParseTreeVisitor<List<ITerminalNode>>
     {
 		#region Override mehtods
 
-		public override ITerminalNode VisitTerminal([NotNull] ITerminalNode node)
+		public override List<ITerminalNode> VisitTerminal([NotNull] ITerminalNode node)
         {
-            return node;
-        }
+			return new List<ITerminalNode>() { node };
+		}
 
-        #endregion
-    }
+		protected override List<ITerminalNode> AggregateResult(List<ITerminalNode> aggregate, List<ITerminalNode> nextResult)
+		{
+			List<ITerminalNode> results = null;
+			if (aggregate != null)
+			{
+				results = results ?? new List<ITerminalNode>();
+				results.AddRange(aggregate);
+			}
+
+			if (nextResult != null)
+			{
+				results = results ?? new List<ITerminalNode>();
+				results.AddRange(nextResult);
+			}
+
+			return results;
+		}
+
+		#endregion
+	}
 }
