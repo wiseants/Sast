@@ -13,9 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sast.Utility", "Sast.Utility\Sast.Utility.csproj", "{56DC3C39-5A30-49AC-A7AB-46649BD95369}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sast.Utility", "Sast.Utility\Sast.Utility.csproj", "{56DC3C39-5A30-49AC-A7AB-46649BD95369}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sast.CodeExplorer", "Sast.CodeExplorer\Sast.CodeExplorer.csproj", "{573B085A-289D-486B-AB77-48237108D6A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sast.CodeExplorer", "Sast.CodeExplorer\Sast.CodeExplorer.csproj", "{573B085A-289D-486B-AB77-48237108D6A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sast.Viewer", "Sast.Viewer\Sast.Viewer.csproj", "{846BAB3A-9402-4CB6-939C-DCD0A2361B4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{573B085A-289D-486B-AB77-48237108D6A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{573B085A-289D-486B-AB77-48237108D6A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{573B085A-289D-486B-AB77-48237108D6A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{846BAB3A-9402-4CB6-939C-DCD0A2361B4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{846BAB3A-9402-4CB6-939C-DCD0A2361B4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{846BAB3A-9402-4CB6-939C-DCD0A2361B4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{846BAB3A-9402-4CB6-939C-DCD0A2361B4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
