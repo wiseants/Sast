@@ -25,7 +25,13 @@ namespace Sast.CodeExplorer.Managers
 			private set;
 		} = new Dictionary<string, IParseTree>();
 
-        public IDictionary<string, IRuleNode> FunctionBodyMap
+		public IDictionary<string, ITreeNode> AstTreeMap
+		{
+			get;
+			private set;
+		} = new Dictionary<string, ITreeNode>();
+
+		public IDictionary<string, IRuleNode> FunctionBodyMap
         {
             get;
             private set;
@@ -98,6 +104,13 @@ namespace Sast.CodeExplorer.Managers
 			}
 
 			ParseTreeMap.Add(fileFullPath, currentParseTree);
+
+            // 트리로부터 기본적인 AST 생성.
+			var astVisitor = Bootstrapper.Instance.CreateContainer<IVisitorFactory>(type.Keyword).BaseNodeVisitor;
+            if (astVisitor != null)
+			{
+				AstTreeMap.Add(fileFullPath, astVisitor.Visit(currentParseTree));
+			}
 		}
 
 		/// <summary>
