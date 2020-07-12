@@ -22,7 +22,7 @@ namespace Sast.CodeExplorer.Cores.Visitors
 
 				BaseNode newNode = new BaseNode()
 				{
-					Name = node.ToString(),
+					Name = node.GetType().Name,
 					Children = newChildren
 				};
 
