@@ -3,7 +3,7 @@ using Antlr4.Runtime.Tree;
 using Sast.Antlr.Grammars;
 using System.Collections.Generic;
 
-namespace Sast.CodeExplorer.Cores.Visitors.Cpp
+namespace Sast.AbstractSTree.Cores.Visitors.Cpp
 {
 	public class FunctionVisitor : CPP14BaseVisitor<Dictionary<string, IRuleNode>>
 	{

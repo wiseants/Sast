@@ -1,9 +1,9 @@
 ﻿using Antlr4.Runtime.Tree;
-using Sast.CodeExplorer.Interfaces;
-using Sast.CodeExplorer.Models.Nodes;
+using Sast.AbstractSTree.Interfaces;
+using Sast.AbstractSTree.Models.Nodes;
 using System.Collections.Generic;
 
-namespace Sast.CodeExplorer.Cores.Visitors.CSharp
+namespace Sast.AbstractSTree.Cores.Visitors.CSharp
 {
 	public class VisitorFactory : IVisitorFactory
 	{

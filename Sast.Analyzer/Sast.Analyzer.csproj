@@ -22,7 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Sast.CodeExplorer\Sast.CodeExplorer.csproj" />
+    <ProjectReference Include="..\Sast.AbstractSTree\Sast.AbstractSTree.csproj" />
+    <ProjectReference Include="..\Sast.AbstractSTree\Sast.AbstractSTree.csproj" />
     <ProjectReference Include="..\Sast.Utility\Sast.Utility.csproj" />
   </ItemGroup>
 

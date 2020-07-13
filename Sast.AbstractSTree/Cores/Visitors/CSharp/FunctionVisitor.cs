@@ -3,7 +3,7 @@ using Antlr4.Runtime.Tree;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sast.CodeExplorer.Cores.Visitors.CSharp
+namespace Sast.AbstractSTree.Cores.Visitors.CSharp
 {
 	public class FunctionVisitor : AbstractParseTreeVisitor<Dictionary<string, IRuleNode>>
 	{

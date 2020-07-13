@@ -1,16 +1,16 @@
 ﻿using Antlr4.Runtime;
 using NLog;
 using Sast.Antlr.Grammars;
-using Sast.CodeExplorer.Cores.Visitors.Cpp;
-using Sast.CodeExplorer.Cores.Visitors.CSharp;
-using Sast.CodeExplorer.Interfaces;
-using Sast.CodeExplorer.Models;
+using Sast.AbstractSTree.Cores.Visitors.Cpp;
+using Sast.AbstractSTree.Cores.Visitors.CSharp;
+using Sast.AbstractSTree.Interfaces;
+using Sast.AbstractSTree.Models;
 using Sast.Utility.Templates;
 using System;
 using Unity;
 using Unity.Resolution;
 
-namespace Sast.CodeExplorer
+namespace Sast.AbstractSTree
 {
 	internal class Bootstrapper : Singleton<Bootstrapper>
     {

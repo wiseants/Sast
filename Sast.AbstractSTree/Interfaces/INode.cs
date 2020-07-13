@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sast.CodeExplorer.Interfaces
+namespace Sast.AbstractSTree.Interfaces
 {
 	public interface INode
 	{

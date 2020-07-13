@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Sast.CodeExplorer.Interfaces
+namespace Sast.AbstractSTree.Interfaces
 {
 	public interface ITreeNode : INode
 	{

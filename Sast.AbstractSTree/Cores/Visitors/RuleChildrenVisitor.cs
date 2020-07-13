@@ -2,7 +2,7 @@
 using Antlr4.Runtime.Tree;
 using System.Collections.Generic;
 
-namespace Sast.CodeExplorer.Cores.Visitors
+namespace Sast.AbstractSTree.Cores.Visitors
 {
 	/// <summary>
 	/// 전달한 룰이름의 하위노드를 모두 가져옵니다.

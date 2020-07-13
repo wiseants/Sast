@@ -1,11 +1,11 @@
 ﻿using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
-using Sast.CodeExplorer.Cores.Visitors;
+using Sast.AbstractSTree.Cores.Visitors;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Sast.CodeExplorer.Cores
+namespace Sast.AbstractSTree.Cores
 {
 	/// <summary>
 	/// 파스트리에서 사용하는 유틸리티 메소드.

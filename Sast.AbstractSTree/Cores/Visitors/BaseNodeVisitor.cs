@@ -1,11 +1,9 @@
 ﻿using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
-using Sast.CodeExplorer.Interfaces;
-using Sast.CodeExplorer.Models.Nodes;
-using System;
-using System.Collections.Generic;
+using Sast.AbstractSTree.Interfaces;
+using Sast.AbstractSTree.Models.Nodes;
 
-namespace Sast.CodeExplorer.Cores.Visitors
+namespace Sast.AbstractSTree.Cores.Visitors
 {
 	public class BaseNodeVisitor : AbstractParseTreeVisitor<BaseNode>
 	{

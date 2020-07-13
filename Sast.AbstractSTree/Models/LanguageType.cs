@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-namespace Sast.CodeExplorer.Models
+namespace Sast.AbstractSTree.Models
 {
 	public class LanguageType
 	{

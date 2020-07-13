@@ -1,6 +1,6 @@
 ﻿using CommandLine;
 using Sast.Analyzer.Interfaces;
-using Sast.CodeExplorer.Managers;
+using Sast.AbstractSTree.Managers;
 
 namespace Sast.Analyzer.Cores.Commands
 {

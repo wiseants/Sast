@@ -2,7 +2,7 @@
 using Antlr4.Runtime.Tree;
 using System.Collections.Generic;
 
-namespace Sast.CodeExplorer.Cores.Visitors
+namespace Sast.AbstractSTree.Cores.Visitors
 {
     /// <summary>
     /// 터미널 노드 비지터입니다.

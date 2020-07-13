@@ -1,16 +1,16 @@
 ﻿using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using NLog;
-using Sast.CodeExplorer.Cores;
-using Sast.CodeExplorer.Interfaces;
-using Sast.CodeExplorer.Models;
+using Sast.AbstractSTree.Cores;
+using Sast.AbstractSTree.Interfaces;
+using Sast.AbstractSTree.Models;
 using Sast.Utility.Templates;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using Unity.Resolution;
 
-namespace Sast.CodeExplorer.Managers
+namespace Sast.AbstractSTree.Managers
 {
     public class ParserManager : Singleton<ParserManager>
     {

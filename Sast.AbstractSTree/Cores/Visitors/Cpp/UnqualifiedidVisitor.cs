@@ -2,7 +2,7 @@
 using Antlr4.Runtime.Tree;
 using Sast.Antlr.Grammars;
 
-namespace Sast.CodeExplorer.Cores.Visitors.Cpp
+namespace Sast.AbstractSTree.Cores.Visitors.Cpp
 {
 	public class UnqualifiedidVisitor : CPP14BaseVisitor<string>
 	{

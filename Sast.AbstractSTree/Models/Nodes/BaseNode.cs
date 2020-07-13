@@ -1,7 +1,7 @@
-﻿using Sast.CodeExplorer.Interfaces;
+﻿using Sast.AbstractSTree.Interfaces;
 using System.Collections.Generic;
 
-namespace Sast.CodeExplorer.Models.Nodes
+namespace Sast.AbstractSTree.Models.Nodes
 {
 	public class BaseNode : ITreeNode
 	{
