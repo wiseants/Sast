@@ -8,7 +8,28 @@
         mc:Ignorable="d"
 		DataContext="{Binding Path=MainViewModel, Source={StaticResource Locator}}"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="30" />
+			<RowDefinition Height="30" />
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+		<Grid Grid.Row="0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="100" />
+			</Grid.ColumnDefinitions>
+			<TextBox Grid.Column="0" Margin="3" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Text="{Binding Path=Command, UpdateSourceTrigger=PropertyChanged}" />
+			<Button Grid.Column="1" Margin="3" Content="Calculator" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Command="{Binding Path=CalculatorCommand}" />
+		</Grid>
+		<TextBlock Grid.Row="1" Margin="3" HorizontalAlignment="Left" VerticalAlignment="Center" 
+				   Text="{Binding Path=Message, UpdateSourceTrigger=PropertyChanged}"  />
+		<TreeView Grid.Row="2" Margin="3" ItemsSource="{Binding Path=RootNodes, UpdateSourceTrigger=PropertyChanged}">
+			<TreeView.ItemTemplate>
+				<HierarchicalDataTemplate ItemsSource="{Binding Path=Nodes, UpdateSourceTrigger=PropertyChanged}">
+					<TextBlock Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
+				</HierarchicalDataTemplate>
+			</TreeView.ItemTemplate>
+		</TreeView>
+	</Grid>
 </Window>
