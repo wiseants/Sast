@@ -5,6 +5,7 @@ using Sast.AbstractSTree.Managers;
 using Sast.AbstractSTree.Models.Nodes;
 using Sast.Viewer.Interfaces;
 using System.Collections.ObjectModel;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace Sast.Viewer.ViewModels
@@ -16,7 +17,7 @@ namespace Sast.Viewer.ViewModels
 		public event OpenWindowEventHandler OpenWindowEvent;
 		public event CloseEventHandler OnCloseEvent;
 
-		private string _command;
+		private string _folderPath;
 		private string _message;
 
 		#endregion
@@ -25,23 +26,38 @@ namespace Sast.Viewer.ViewModels
 
 		public MainViewModel()
 		{
-			CalculatorCommand = new DelegateCommand(Calculator);
+			FolderPath = Settings.Default.TargetFolderPath;
+
+			ConvertCommand = new DelegateCommand(Convert);
+			OpenFolderDialogCommand = new DelegateCommand(OpenFolderDialog);
 		}
 
 		#endregion
 
 		#region Properties
 
-		public ICommand CalculatorCommand
+		public ICommand ConvertCommand
 		{
 			get;
 			set;
 		}
 
-		public string Command
+		public ICommand OpenFolderDialogCommand
 		{
-			get { return _command; }
-			set { SetProperty(ref _command, value); }
+			get;
+			set;
+		}
+
+		public string FolderPath
+		{
+			get { return _folderPath; }
+			set 
+			{ 
+				SetProperty(ref _folderPath, value);
+
+				Settings.Default.TargetFolderPath = FolderPath;
+				Settings.Default.Save();
+			}
 		}
 
 		public string Message
@@ -60,9 +76,20 @@ namespace Sast.Viewer.ViewModels
 
 		#region Private methdos
 
-		private void Calculator()
+		
+		private void OpenFolderDialog()
 		{
-			ParserManager.Instance.FolderParse(@"D:\workspace\Targets");
+			using var dialog = new FolderBrowserDialog();
+			DialogResult result = dialog.ShowDialog();
+			if (result == DialogResult.OK)
+			{
+				FolderPath = dialog.SelectedPath;
+			}
+		}
+
+		private void Convert()
+		{
+			ParserManager.Instance.FolderParse(FolderPath);
 
 			foreach (var pair in ParserManager.Instance.AstTreeMap)
 			{

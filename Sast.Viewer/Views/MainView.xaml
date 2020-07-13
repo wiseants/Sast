@@ -18,10 +18,15 @@
 		<Grid Grid.Row="0">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="35" />
 				<ColumnDefinition Width="100" />
 			</Grid.ColumnDefinitions>
-			<TextBox Grid.Column="0" Margin="3" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Text="{Binding Path=Command, UpdateSourceTrigger=PropertyChanged}" />
-			<Button Grid.Column="1" Margin="3" Content="Calculator" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Command="{Binding Path=CalculatorCommand}" />
+			<TextBox Grid.Column="0" Margin="3" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" 
+					 Text="{Binding Path=FolderPath, UpdateSourceTrigger=PropertyChanged}" />
+			<Button Grid.Column="1" Margin="3" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
+					Command="{Binding Path=OpenFolderDialogCommand}" />
+			<Button Grid.Column="2" Margin="3" Content="Convert" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+					Command="{Binding Path=ConvertCommand}" />
 		</Grid>
 		<TextBlock Grid.Row="1" Margin="3" HorizontalAlignment="Left" VerticalAlignment="Center" 
 				   Text="{Binding Path=Message, UpdateSourceTrigger=PropertyChanged}"  />
