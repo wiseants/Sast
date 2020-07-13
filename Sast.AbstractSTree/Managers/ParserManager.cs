@@ -27,17 +27,17 @@ namespace Sast.AbstractSTree.Managers
 			private set;
 		} = new ConcurrentDictionary<string, IParseTree>();
 
-		public IDictionary<string, ITreeNode> AstTreeMap
+		public ConcurrentDictionary<string, ITreeNode> AstTreeMap
 		{
 			get;
 			private set;
-		} = new Dictionary<string, ITreeNode>();
+		} = new ConcurrentDictionary<string, ITreeNode>();
 
-		public IDictionary<string, IRuleNode> FunctionBodyMap
+		public ConcurrentDictionary<string, IRuleNode> FunctionBodyMap
         {
             get;
             private set;
-        } = new Dictionary<string, IRuleNode>();
+        } = new ConcurrentDictionary<string, IRuleNode>();
 
         #endregion
 
@@ -114,7 +114,10 @@ namespace Sast.AbstractSTree.Managers
 			var astVisitor = Bootstrapper.Instance.CreateContainer<IVisitorFactory>(type.Keyword).BaseNodeVisitor;
             if (astVisitor != null)
 			{
-				AstTreeMap.Add(fileFullPath, astVisitor.Visit(currentParseTree));
+				AstTreeMap.AddOrUpdate(fileFullPath, astVisitor.Visit(currentParseTree), (key, value) =>
+    			{
+					return value;
+				});
 			}
 		}
 
