@@ -1,11 +1,7 @@
-﻿using Microsoft.Practices.Prism.Mvvm;
-using NLog;
-using Prism.Mvvm;
+﻿using NLog;
 using Sast.Utility.Templates;
 using Sast.Viewer.ViewModels;
-using Sast.Viewer.Views;
 using System;
-using System.Windows;
 using Unity;
 using Unity.Resolution;
 
