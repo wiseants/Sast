@@ -1,7 +1,9 @@
-﻿using NLog;
+﻿using Microsoft.Practices.Prism.Mvvm;
+using NLog;
 using Prism.Mvvm;
 using Sast.Utility.Templates;
 using Sast.Viewer.ViewModels;
+using Sast.Viewer.Views;
 using System;
 using System.Windows;
 using Unity;
@@ -11,23 +13,21 @@ namespace Sast.Viewer
 {
 	public class Bootstrapper : Singleton<Bootstrapper>
     {
-        #region Fileds
-
-        private readonly IUnityContainer container = new UnityContainer();
-
-        #endregion
-
         #region Constructors
 
-        private Bootstrapper()
+        public Bootstrapper()
         {
             BuildContainer();
-
-			App.Current.Resources = new ResourceDictionary
-			{
-				{ App.LOCATOR_RESOURCE_KEY, container.Resolve<Cores.ViewModelLocator>() }
-			};
 		}
+
+		#endregion
+
+		#region Properties
+
+		public IUnityContainer Container
+		{
+			get;
+        } = new UnityContainer();
 
         #endregion
 
@@ -35,11 +35,11 @@ namespace Sast.Viewer
 
         public T CreateContainer<T>(params ResolverOverride[] overrides)
         {
-            T result = default(T);
+            T result = default;
 
             try
             {
-                result = container.Resolve<T>(overrides);
+                result = Container.Resolve<T>(overrides);
             }
             catch (Exception ex)
             {
@@ -51,11 +51,11 @@ namespace Sast.Viewer
 
         public T CreateContainer<T>(string name, params ResolverOverride[] overrides)
         {
-            T result = default(T);
+            T result = default;
 
             try
             {
-                result = container.Resolve<T>(name, overrides);
+                result = Container.Resolve<T>(name, overrides);
             }
             catch(Exception ex)
             {
@@ -71,7 +71,7 @@ namespace Sast.Viewer
 
         private void BuildContainer()
         {
-            container.RegisterType<BindableBase, MainViewModel>("MainViewModel");
+            Container.RegisterType<Prism.Mvvm.BindableBase, MainViewModel>("MainView");
         }
 
         #endregion

@@ -8,9 +8,9 @@ namespace Sast.Analyzer
 {
 	public class Bootstrapper : Singleton<Bootstrapper>
     {
-        #region Fileds
+		#region Fileds
 
-        private readonly IUnityContainer container = new UnityContainer();
+		private readonly IUnityContainer container = new UnityContainer();
 
         #endregion
 
@@ -27,7 +27,7 @@ namespace Sast.Analyzer
 
         public T CreateContainer<T>(params ResolverOverride[] overrides)
         {
-            T result = default(T);
+            T result = default;
 
             try
             {
@@ -43,7 +43,7 @@ namespace Sast.Analyzer
 
         public T CreateContainer<T>(string name, params ResolverOverride[] overrides)
         {
-            T result = default(T);
+            T result = default;
 
             try
             {

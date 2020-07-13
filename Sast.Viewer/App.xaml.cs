@@ -1,4 +1,5 @@
 ﻿using Prism.Mvvm;
+using Sast.Viewer.Views;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -7,6 +8,8 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Automation.Peers;
+using Unity;
 
 namespace Sast.Viewer
 {
@@ -21,7 +24,14 @@ namespace Sast.Viewer
 		//public static readonly string RECIPE_RESOURCE_KEY = "Recipe";
 		public static readonly string LOCATOR_RESOURCE_KEY = "Locator";
 
+		private static Bootstrapper _bootstrapper = null;
+
 		#endregion
+
+		public static IUnityContainer Container
+		{
+			get => _bootstrapper?.Container;
+		}
 
 		#region Public methods
 
@@ -41,12 +51,20 @@ namespace Sast.Viewer
 		{
 			base.OnStartup(e);
 
+			_bootstrapper = new Bootstrapper();
+
 			ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver((viewType) =>
 			{
-				var viewName = viewType.FullName;
-				var viewModelName = String.Format(CultureInfo.InvariantCulture, "{0}Model", viewName);
-				return Type.GetType(viewModelName);
+				return Type.GetType(string.Format(CultureInfo.InvariantCulture, "{0}Model", viewType.FullName));
 			});
+
+			Current.Resources = new ResourceDictionary
+			{
+				{ LOCATOR_RESOURCE_KEY, Container.Resolve<Cores.ViewModelLocator>() }
+			};
+
+			MainView window = new MainView();
+			window.Show();
 		}
 
 		#endregion
