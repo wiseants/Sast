@@ -17,5 +17,11 @@ namespace Sast.Viewer
 	/// <returns>메세지박스 결과.</returns>
 	public delegate MessageBoxResult MessageEventHandler(string message, MessageBoxButton type);
 
+	/// <summary>
+	/// 자식 윈도우 출력 이벤트 핸들러.
+	/// </summary>
+	/// <param name="sender">발송자.</param>
+	/// <param name="windowName">자식 윈도우 이름(부트스트래퍼)</param>
+	/// <returns>윈도우 결과.</returns>
 	public delegate bool? OpenWindowEventHandler(object sender, string windowName);
 }

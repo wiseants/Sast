@@ -1,7 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using Sast.Viewer.Interfaces;
-using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace Sast.Viewer.ViewModels

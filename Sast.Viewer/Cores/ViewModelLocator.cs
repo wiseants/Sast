@@ -1,53 +1,31 @@
 ﻿using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using Unity;
 
 namespace Sast.Viewer.Cores
 {
+	/// <summary>
+	/// 뷰모델 로케이터.
+	/// </summary>
 	public class ViewModelLocator
 	{
-		#region Fields
-
-		private readonly IUnityContainer _container = null;
-		private readonly Dictionary<Type, object> _viewModelMap = new Dictionary<Type, object>();
-
-		#endregion
-
 		#region Constructors
 
-		public ViewModelLocator(IUnityContainer container)
+		public ViewModelLocator()
 		{
-			_container = container;
 		}
 
 		#endregion
 
 		#region Properties
 
+		/// <summary>
+		/// 메인 윈도우 뷰모델.
+		/// </summary>
 		public BindableBase MainViewModel
 		{
 			get
 			{
-				return CreateViewModel<BindableBase>("Main");
+				return Bootstrapper.Instance.CreateContainer<BindableBase>("main");
 			}
-		}
-
-		#endregion
-
-		#region Private methods
-
-		private T CreateViewModel<T>(string name)
-		{
-			Type type = typeof(T);
-
-			if (_viewModelMap.TryGetValue(type, out object existedValue) == false)
-			{
-				existedValue = _container.Resolve<T>(name);
-				_viewModelMap[type] = existedValue;
-			}
-
-			return (T)existedValue;
 		}
 
 		#endregion

@@ -5,6 +5,9 @@
 	/// </summary>
 	public interface IWindowHandler
 	{
+		/// <summary>
+		/// 자식 윈도우 열기 이벤트.
+		/// </summary>
 		event OpenWindowEventHandler OpenWindowEvent;
 
 		/// <summary>

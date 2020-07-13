@@ -2,8 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Sast.Viewer"
-			 xmlns:view="clr-namespace:Sast.Viewer.Views">
+			 xmlns:core="clr-namespace:Sast.Viewer.Cores"  
+			 xmlns:view="clr-namespace:Sast.Viewer.Views"
+			 StartupUri="Views\MainView.xaml">
     <Application.Resources>
-         
-    </Application.Resources>
+		<core:ViewModelLocator x:Key="ViewModelLocator" />
+	</Application.Resources>
 </Application>

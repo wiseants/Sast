@@ -6,8 +6,8 @@
 	    xmlns:prism="http://prismlibrary.com/"
         xmlns:local="clr-namespace:Sast.Viewer"
         mc:Ignorable="d"
-		DataContext="{Binding Path=MainViewModel, Source={StaticResource Locator}}"
-		DataContextChanged="mainView_DataContextChanged"
+		DataContext="{Binding Path=MainViewModel, Source={StaticResource ViewModelLocator}}"
+		DataContextChanged="MainView_DataContextChanged"
         x:Name="mainView" Title="Main" Height="450" Width="800">
 	<Grid>
 		<Grid.RowDefinitions>

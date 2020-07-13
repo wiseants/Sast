@@ -19,7 +19,7 @@ namespace Sast.Viewer.Views
 
 		#region Event handlers
 
-		private void mainView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+		private void MainView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
 		{
 			if (e.NewValue is IWindowHandler viewModel)
 			{
@@ -31,7 +31,7 @@ namespace Sast.Viewer.Views
 
 				viewModel.OpenWindowEvent += (sender, windowName) =>
 				{
-					var window = App.Bootstrapper.CreateContainer<Window>(windowName);
+					var window = Bootstrapper.Instance.CreateContainer<Window>(windowName);
 					if (window == null)
 					{
 						return null;
