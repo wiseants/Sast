@@ -14,7 +14,7 @@ namespace Sast.Viewer
     {
         #region Constructors
 
-        public Bootstrapper()
+        private Bootstrapper()
         {
             BuildContainer();
 		}
