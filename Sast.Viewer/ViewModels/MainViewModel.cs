@@ -1,13 +1,17 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
+using Sast.Viewer.Interfaces;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace Sast.Viewer.ViewModels
 {
-	public class MainViewModel : BindableBase
+	public class MainViewModel : BindableBase, IWindowHandler
 	{
 		#region Fields
+
+		public event OpenWindowEventHandler OpenWindowEvent;
+		public event CloseEventHandler OnCloseEvent;
 
 		private string _command;
 		private string _message;
@@ -49,7 +53,7 @@ namespace Sast.Viewer.ViewModels
 
 		private void Calculator()
 		{
-
+			OnCloseEvent(this, true);
 		}
 
 		#endregion

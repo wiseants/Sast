@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Sast.Viewer.Interfaces;
+using System.Windows;
 using Unity;
 
 namespace Sast.Viewer

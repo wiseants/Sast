@@ -33,7 +33,7 @@ namespace Sast.CodeExplorer
 
         public T CreateContainer<T>(params ResolverOverride[] overrides)
         {
-            T result = default(T);
+            T result = default;
 
             try
             {
@@ -49,7 +49,7 @@ namespace Sast.CodeExplorer
 
         public T CreateContainer<T>(string name, params ResolverOverride[] overrides)
         {
-            T result = default(T);
+            T result = default;
 
             try
             {

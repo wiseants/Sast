@@ -7,7 +7,8 @@
         xmlns:local="clr-namespace:Sast.Viewer"
         mc:Ignorable="d"
 		DataContext="{Binding Path=MainViewModel, Source={StaticResource Locator}}"
-        Title="MainWindow" Height="450" Width="800">
+		DataContextChanged="mainView_DataContextChanged"
+        x:Name="mainView" Title="Main" Height="450" Width="800">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30" />

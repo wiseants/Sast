@@ -1,6 +1,7 @@
 ﻿using NLog;
 using Prism.Mvvm;
 using Sast.Utility.Templates;
+using Sast.Viewer.Interfaces;
 using Sast.Viewer.ViewModels;
 using Sast.Viewer.Views;
 using System;
@@ -72,7 +73,7 @@ namespace Sast.Viewer
         {
 			Container.RegisterType<Window, MainView>("Main");
 
-			Container.RegisterType<BindableBase, MainViewModel>("Main");
+            Container.RegisterType<BindableBase, MainViewModel>("Main");
         }
 
         #endregion
