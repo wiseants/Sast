@@ -1,14 +1,4 @@
-﻿using Prism.Mvvm;
-using Sast.Viewer.Views;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Automation.Peers;
+﻿using System.Windows;
 using Unity;
 
 namespace Sast.Viewer
@@ -20,28 +10,16 @@ namespace Sast.Viewer
 	{
 		#region Fields
 
-		//public static event ChangedRecipe ChangedRecipe;
-		//public static readonly string RECIPE_RESOURCE_KEY = "Recipe";
 		public static readonly string LOCATOR_RESOURCE_KEY = "Locator";
-
-		private static Bootstrapper _bootstrapper = null;
 
 		#endregion
 
-		public static IUnityContainer Container
-		{
-			get => _bootstrapper?.Container;
-		}
+		#region Properties
 
-		#region Public methods
-
-		public static Cores.ViewModelLocator Locator
+		public static Bootstrapper Bootstrapper
 		{
-			get
-			{
-				return Current.Resources[LOCATOR_RESOURCE_KEY] as Cores.ViewModelLocator;
-			}
-		}
+			get;
+		} = new Bootstrapper();
 
 		#endregion
 
@@ -51,20 +29,12 @@ namespace Sast.Viewer
 		{
 			base.OnStartup(e);
 
-			_bootstrapper = new Bootstrapper();
-
-			ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver((viewType) =>
-			{
-				return Type.GetType(string.Format(CultureInfo.InvariantCulture, "{0}Model", viewType.FullName));
-			});
-
 			Current.Resources = new ResourceDictionary
 			{
-				{ LOCATOR_RESOURCE_KEY, Container.Resolve<Cores.ViewModelLocator>() }
+				{ LOCATOR_RESOURCE_KEY, Bootstrapper.Container.Resolve<Cores.ViewModelLocator>() }
 			};
 
-			MainView window = new MainView();
-			window.Show();
+			Bootstrapper.Container.Resolve<Window>("Main").Show();
 		}
 
 		#endregion

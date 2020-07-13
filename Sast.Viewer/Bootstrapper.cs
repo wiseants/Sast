@@ -1,13 +1,16 @@
 ﻿using NLog;
+using Prism.Mvvm;
 using Sast.Utility.Templates;
 using Sast.Viewer.ViewModels;
+using Sast.Viewer.Views;
 using System;
+using System.Windows;
 using Unity;
 using Unity.Resolution;
 
 namespace Sast.Viewer
 {
-	public class Bootstrapper : Singleton<Bootstrapper>
+	public class Bootstrapper
     {
         #region Constructors
 
@@ -67,7 +70,9 @@ namespace Sast.Viewer
 
         private void BuildContainer()
         {
-            Container.RegisterType<Prism.Mvvm.BindableBase, MainViewModel>("MainView");
+			Container.RegisterType<Window, MainView>("Main");
+
+			Container.RegisterType<BindableBase, MainViewModel>("Main");
         }
 
         #endregion

@@ -1,7 +1,6 @@
 ﻿using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Unity;
 
 namespace Sast.Viewer.Cores
@@ -30,7 +29,7 @@ namespace Sast.Viewer.Cores
 		{
 			get
 			{
-				return CreateViewModel<BindableBase>("MainView");
+				return CreateViewModel<BindableBase>("Main");
 			}
 		}
 
