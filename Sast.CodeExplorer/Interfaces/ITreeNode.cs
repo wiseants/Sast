@@ -6,7 +6,7 @@ namespace Sast.CodeExplorer.Interfaces
 	{
 		#region Properties
 
-		IEnumerable<ITreeNode> Children { get; set; }
+		ITreeNode[] Children { get; set; }
 
 		#endregion
 	}

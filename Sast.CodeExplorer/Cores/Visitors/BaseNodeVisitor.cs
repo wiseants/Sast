@@ -2,6 +2,7 @@
 using Antlr4.Runtime.Tree;
 using Sast.CodeExplorer.Interfaces;
 using Sast.CodeExplorer.Models.Nodes;
+using System;
 using System.Collections.Generic;
 
 namespace Sast.CodeExplorer.Cores.Visitors
@@ -14,10 +15,10 @@ namespace Sast.CodeExplorer.Cores.Visitors
 		{
 			if (node.ChildCount > 1)
 			{
-				List<ITreeNode> newChildren = new List<ITreeNode>();
+				ITreeNode[] newChildren = new ITreeNode[node.ChildCount];
 				for (int i = 0; i < node.ChildCount; i++)
 				{
-					newChildren.Add(new BaseNodeVisitor().Visit(node.GetChild(i)));
+					newChildren[i] = new BaseNodeVisitor().Visit(node.GetChild(i));
 				}
 
 				BaseNode newNode = new BaseNode()
