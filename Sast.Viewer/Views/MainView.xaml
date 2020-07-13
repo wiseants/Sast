@@ -25,9 +25,9 @@
 		</Grid>
 		<TextBlock Grid.Row="1" Margin="3" HorizontalAlignment="Left" VerticalAlignment="Center" 
 				   Text="{Binding Path=Message, UpdateSourceTrigger=PropertyChanged}"  />
-		<TreeView Grid.Row="2" Margin="3" ItemsSource="{Binding Path=RootNodes, UpdateSourceTrigger=PropertyChanged}">
+		<TreeView Grid.Row="2" Margin="3" ItemsSource="{Binding Path=AstRootList, UpdateSourceTrigger=PropertyChanged}">
 			<TreeView.ItemTemplate>
-				<HierarchicalDataTemplate ItemsSource="{Binding Path=Nodes, UpdateSourceTrigger=PropertyChanged}">
+				<HierarchicalDataTemplate ItemsSource="{Binding Path=Children, UpdateSourceTrigger=PropertyChanged}">
 					<TextBlock Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
 				</HierarchicalDataTemplate>
 			</TreeView.ItemTemplate>

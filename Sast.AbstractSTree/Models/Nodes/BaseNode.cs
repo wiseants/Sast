@@ -1,5 +1,4 @@
 ﻿using Sast.AbstractSTree.Interfaces;
-using System.Collections.Generic;
 
 namespace Sast.AbstractSTree.Models.Nodes
 {

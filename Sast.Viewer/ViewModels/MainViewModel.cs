@@ -1,6 +1,10 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
+using Sast.AbstractSTree.Interfaces;
+using Sast.AbstractSTree.Managers;
+using Sast.AbstractSTree.Models.Nodes;
 using Sast.Viewer.Interfaces;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace Sast.Viewer.ViewModels
@@ -46,13 +50,24 @@ namespace Sast.Viewer.ViewModels
 			set { SetProperty(ref _message, value); }
 		}
 
+		public ObservableCollection<ITreeNode> AstRootList
+		{
+			get;
+			set;
+		} = new ObservableCollection<ITreeNode>();
+
 		#endregion
 
 		#region Private methdos
 
 		private void Calculator()
 		{
-			OnCloseEvent(this, true);
+			ParserManager.Instance.FolderParse(@"D:\workspace\Targets");
+
+			foreach (var pair in ParserManager.Instance.AstTreeMap)
+			{
+				AstRootList.Add(pair.Value);
+			}
 		}
 
 		#endregion

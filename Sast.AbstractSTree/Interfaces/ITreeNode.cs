@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Sast.AbstractSTree.Interfaces
+﻿namespace Sast.AbstractSTree.Interfaces
 {
 	public interface ITreeNode : INode
 	{
