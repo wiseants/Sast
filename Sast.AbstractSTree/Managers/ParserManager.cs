@@ -6,10 +6,8 @@ using Sast.AbstractSTree.Interfaces;
 using Sast.AbstractSTree.Models;
 using Sast.Utility.Templates;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using Unity.Resolution;
 
 namespace Sast.AbstractSTree.Managers
@@ -21,23 +19,23 @@ namespace Sast.AbstractSTree.Managers
         /// <summary>
         /// 파일이름을 키워드로 하는 파스트리맵.
         /// </summary>
-        public ConcurrentDictionary<string, IParseTree> ParseTreeMap
+        public IDictionary<string, IParseTree> ParseTreeMap
         {
             get;
 			private set;
-		} = new ConcurrentDictionary<string, IParseTree>();
+		} = new Dictionary<string, IParseTree>();
 
-		public ConcurrentDictionary<string, ITreeNode> AstTreeMap
+		public IDictionary<string, ITreeNode> AstTreeMap
 		{
 			get;
 			private set;
-		} = new ConcurrentDictionary<string, ITreeNode>();
+		} = new Dictionary<string, ITreeNode>();
 
-		public ConcurrentDictionary<string, IRuleNode> FunctionBodyMap
+		public IDictionary<string, IRuleNode> FunctionBodyMap
         {
             get;
             private set;
-        } = new ConcurrentDictionary<string, IRuleNode>();
+        } = new Dictionary<string, IRuleNode>();
 
         #endregion
 
@@ -96,28 +94,22 @@ namespace Sast.AbstractSTree.Managers
             LogManager.GetCurrentClassLogger().Debug("Success to parse : Path({0})", @fileFullPath);
 
             // 트리로 부터 데이터 생성.
-   //         var funcDeclareVisitor = Bootstrapper.Instance.CreateContainer<IVisitorFactory>(type.Keyword).FunctionVisitor;
-			//foreach (var pair in funcDeclareVisitor.Visit(currentParseTree))
-			//{
-			//	FunctionBodyMap.Add(pair.Key, pair.Value);
-   //             LogManager.GetCurrentClassLogger().Debug("Success to extract : Name({0}), ParseTree({1})",
-   //                 pair.Key,
-   //                 pair.Value.ToString()); ;
-			//}
+            var funcDeclareVisitor = Bootstrapper.Instance.CreateContainer<IVisitorFactory>(type.Keyword).FunctionVisitor;
+			foreach (var pair in funcDeclareVisitor.Visit(currentParseTree))
+			{
+				FunctionBodyMap.Add(pair.Key, pair.Value);
+                LogManager.GetCurrentClassLogger().Debug("Success to extract : Name({0}), ParseTree({1})",
+                    pair.Key,
+                    pair.Value.ToString()); ;
+			}
 
-			ParseTreeMap.AddOrUpdate(fileFullPath, currentParseTree, (key, value) =>
-            {
-                return value;
-            });
+			ParseTreeMap.Add(fileFullPath, currentParseTree);
 
             // 트리로부터 기본적인 AST 생성.
 			var astVisitor = Bootstrapper.Instance.CreateContainer<IVisitorFactory>(type.Keyword).BaseNodeVisitor;
             if (astVisitor != null)
 			{
-				AstTreeMap.AddOrUpdate(fileFullPath, astVisitor.Visit(currentParseTree), (key, value) =>
-    			{
-					return value;
-				});
+				AstTreeMap.Add(fileFullPath, astVisitor.Visit(currentParseTree));
 			}
 		}
 
@@ -134,16 +126,10 @@ namespace Sast.AbstractSTree.Managers
 			}
 
             string[] filePaths = Directory.GetFiles(@folderFullPath, "*.*", SearchOption.AllDirectories);
-
             foreach (string fileFullPath in filePaths)
 			{
                 FileParse(fileFullPath);
             }
-
-            Parallel.ForEach(filePaths, (string fileFullPath) =>
-            {
-                FileParse(fileFullPath);
-            });
         }
 
         #endregion

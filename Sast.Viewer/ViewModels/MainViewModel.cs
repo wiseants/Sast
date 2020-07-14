@@ -2,6 +2,7 @@
 using Prism.Mvvm;
 using Sast.AbstractSTree.Interfaces;
 using Sast.AbstractSTree.Managers;
+using Sast.AbstractSTree.Models.Nodes;
 using Sast.Viewer.Interfaces;
 using System.Collections.ObjectModel;
 using System.Windows.Forms;
@@ -74,6 +75,7 @@ namespace Sast.Viewer.ViewModels
 		#endregion
 
 		#region Private methdos
+
 		
 		private void OpenFolderDialog()
 		{
@@ -89,7 +91,6 @@ namespace Sast.Viewer.ViewModels
 		{
 			ParserManager.Instance.FolderParse(FolderPath);
 
-			AstRootList.Clear();
 			foreach (var pair in ParserManager.Instance.AstTreeMap)
 			{
 				AstRootList.Add(pair.Value);
