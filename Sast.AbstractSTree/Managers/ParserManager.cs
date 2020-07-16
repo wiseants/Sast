@@ -91,19 +91,19 @@ namespace Sast.AbstractSTree.Managers
             {
                 return;
             }
-            LogManager.GetCurrentClassLogger().Debug("Success to parse : Path({0})", @fileFullPath);
-
-            // 트리로 부터 데이터 생성.
-            var funcDeclareVisitor = Bootstrapper.Instance.CreateContainer<IVisitorFactory>(type.Keyword).FunctionVisitor;
-			foreach (var pair in funcDeclareVisitor.Visit(currentParseTree))
-			{
-				FunctionBodyMap.Add(pair.Key, pair.Value);
-                LogManager.GetCurrentClassLogger().Debug("Success to extract : Name({0}), ParseTree({1})",
-                    pair.Key,
-                    pair.Value.ToString()); ;
-			}
 
 			ParseTreeMap.Add(fileFullPath, currentParseTree);
+			LogManager.GetCurrentClassLogger().Debug("Success to parse : Path({0})", @fileFullPath);
+
+            // 트리로 부터 데이터 생성.
+   //         var funcDeclareVisitor = Bootstrapper.Instance.CreateContainer<IVisitorFactory>(type.Keyword).FunctionVisitor;
+			//foreach (var pair in funcDeclareVisitor.Visit(currentParseTree))
+			//{
+			//	FunctionBodyMap.Add(pair.Key, pair.Value);
+   //             LogManager.GetCurrentClassLogger().Debug("Success to extract : Name({0}), ParseTree({1})",
+   //                 pair.Key,
+   //                 pair.Value.ToString()); ;
+			//}
 
             // 트리로부터 기본적인 AST 생성.
 			var astVisitor = Bootstrapper.Instance.CreateContainer<IVisitorFactory>(type.Keyword).BaseNodeVisitor;
